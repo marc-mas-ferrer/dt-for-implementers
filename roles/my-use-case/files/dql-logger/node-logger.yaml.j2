@@ -1,0 +1,23 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nodejs-pino-logger
+  labels:
+    app: nodejs-pino-logger
+  namespace: "{{ dql_logger_namespace }}"
+spec:
+ selector:
+  matchLabels:
+   app: nodejs-pino-logger
+ template:
+  metadata:
+   labels:
+    app: nodejs-pino-logger
+  spec:
+   containers:
+   - image: safiaregistry.azurecr.io/hackathon/node-pino-logger:latest
+     name: nodejs-pino-logger
+     imagePullPolicy: Always
+     ports:
+       - containerPort: 3000

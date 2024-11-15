@@ -1,0 +1,26 @@
+{
+  "name": "Simplenode Dev",
+  "identifier": "simplenode",
+  "responsibilities": {
+    "development": true,
+    "security": true,
+    "operations": true,
+    "infrastructure": false,
+    "lineOfBusiness": false
+  },
+  "contactDetails": [
+    {
+      "integrationType": "JIRA",
+      "jira": {
+        "project": " Security Incident Management",
+        "defaultAssignee": "Simplenode-Dev-Team"
+      }
+    },
+    {
+      "integrationType": "SLACK",
+      "slackChannel": "appsec-hot"
+    }
+  ],
+  "links": [],
+  "additionalInformation": []
+}

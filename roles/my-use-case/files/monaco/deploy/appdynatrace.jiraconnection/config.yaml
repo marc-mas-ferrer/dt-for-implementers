@@ -1,0 +1,10 @@
+configs:
+- id: 525d4023-de8f-306b-bb0c-3d76ee3b6452
+  config:
+    name: name
+    template: 525d4023-de8f-306b-bb0c-3d76ee3b6452.json
+    skip: false
+  type:
+    settings:
+      schema: app:dynatrace.jira:connection
+      scope: environment

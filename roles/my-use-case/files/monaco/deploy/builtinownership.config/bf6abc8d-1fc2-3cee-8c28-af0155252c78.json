@@ -1,0 +1,22 @@
+{
+  "ownershipIdentifiers": [
+    {
+      "enabled": true,
+      "key": "App"
+    },
+    {
+      "enabled": true,
+      "key": "dt.owner"
+    },
+    {
+      "enabled": true,
+      "key": "[Environment]DT_RELEASE_PRODUCT"
+    },
+    {
+      "enabled": true,
+      "key": "owner"
+    }
+  ]
+}
+
+

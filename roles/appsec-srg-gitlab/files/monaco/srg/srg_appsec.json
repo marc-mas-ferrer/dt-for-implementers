@@ -1,0 +1,35 @@
+{    
+    "name": "{{.name}}",
+    "description": "{{.description}}",
+    "tags": {{.tags}},
+    "variables": [],
+    "objectives": [
+      {
+        "name": "New Open Vulnerabilities",
+        "description": null,
+        "objectiveType": "DQL",
+        "dqlQuery": "fetch events\n| filter event.provider==\"Dynatrace\"\n| filter event.kind==\"SECURITY_EVENT\"\n| filter event.type==\"VULNERABILITY_STATUS_CHANGE_EVENT\"\n| filter event.level==\"VULNERABILITY\"\n| filter event.status==\"OPEN\"\n| lookup [\nfetch events\n| filter event.provider==\"Dynatrace\"\n| filter event.kind==\"SECURITY_EVENT\"\n| filter event.level==\"ENTITY\"\n| filter event.status==\"OPEN\"\n| fieldsAdd management_zone.names = toString(affected_entity.management_zones.names)\n], sourceField:vulnerability.id, lookupField:vulnerability.id, fields:{management_zone.names}\n| fieldsAdd management_zone.names\n| filter contains(management_zone.names, \"simplenode-gitlab-staging\")\n| summarize  count=count()",
+        "comparisonOperator": "LESS_THAN_OR_EQUAL",
+        "target": 5,
+        "warning": 2
+      },
+      {
+        "name": "Vulnerable Function Invocation",
+        "description": null,
+        "objectiveType": "DQL",
+        "dqlQuery": "fetch logs\n| filter k8s.container.name == \"microblog-service\" and contains(content, \"Vulnerable function\")\n| fields timestamp, content, loglevel, trace_id\n| parse content, \"LD 'Vulnerable function ' LD:function ' was called'\"\n| filter isNotNull(function)\n| summarize count = count()",
+        "comparisonOperator": "LESS_THAN_OR_EQUAL",
+        "target": 400,
+        "warning": 200
+      },
+      {
+        "name": "New high-profile vulnerabilities",
+        "description": null,
+        "objectiveType": "DQL",
+        "dqlQuery": "fetch events\n| filter event.provider==\"Dynatrace\"\n| filter event.kind==\"SECURITY_EVENT\"\n| filter event.type==\"VULNERABILITY_STATUS_CHANGE_EVENT\"\n| filter event.level==\"VULNERABILITY\"\n| filter event.status==\"OPEN\"\n| filter in(vulnerability.risk.level,{\"CRITICAL\",\"HIGH\"})\n| summarize `New high-profile vulnerabilities`=count()",
+        "comparisonOperator": "LESS_THAN_OR_EQUAL",
+        "target": 0,
+        "warning": null
+      }
+    ]
+}

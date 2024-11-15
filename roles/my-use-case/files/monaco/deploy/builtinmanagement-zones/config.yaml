@@ -1,0 +1,20 @@
+configs:
+
+- id: 5507f5fe-6955-3d21-b8af-da8c97076f42
+  config:
+    name: unguard
+    template: 5507f5fe-6955-3d21-b8af-da8c97076f42.json
+    skip: false
+  type:
+    settings:
+      schema: builtin:management-zones
+      scope: environment
+- id: 6da5093a-15df-3579-bed4-62cbbf556234
+  config:
+    name: webgoat
+    template: 6da5093a-15df-3579-bed4-62cbbf556234.json
+    skip: false
+  type:
+    settings:
+      schema: builtin:management-zones
+      scope: environment

@@ -1,0 +1,10 @@
+configs:
+- id: 8590a586-89bb-3883-a143-c2525940f02a
+  config:
+    name: include_all
+    template: 8590a586-89bb-3883-a143-c2525940f02a.json
+    skip: false
+  type:
+    settings:
+      schema: builtin:logmonitoring.log-storage-settings
+      scope: environment

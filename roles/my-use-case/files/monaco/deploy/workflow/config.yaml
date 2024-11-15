@@ -1,0 +1,29 @@
+configs:
+- id: 4f4fb22d-abd0-4209-9e64-5c01f2fc525c
+  config:
+    name:
+      type: value
+      value: Jira Issue for Vulnerabilities
+    parameters:
+      appdynatracejiraconnection__525d4023de8f306bbb0c3d76ee3b6452__id:
+        configId: 525d4023-de8f-306b-bb0c-3d76ee3b6452
+        configType: app:dynatrace.jira:connection
+        property: id
+        type: reference
+    template: 4f4fb22d-abd0-4209-9e64-5c01f2fc525c.json
+    skip: false
+    originObjectId: 4f4fb22d-abd0-4209-9e64-5c01f2fc525c
+  type:
+    automation:
+      resource: workflow
+
+- id: 628eed0b-63d4-47e4-83c8-7366d94de26f
+  config:
+    name:
+      type: value
+      value: Account Enumeration Simulation
+    template: 628eed0b-63d4-47e4-83c8-7366d94de26f.json
+    skip: false
+  type:
+    automation:
+      resource: workflow

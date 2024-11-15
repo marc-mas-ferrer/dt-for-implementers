@@ -1,0 +1,14 @@
+[Unit]
+Description=Invisible log demo service
+After=network.target
+StartLimitIntervalSec=0
+
+[Service]
+Type=simple
+Restart=always
+RestartSec=1
+User={{ ace_box_user }}
+ExecStart=/home/{{ ace_box_user }}/script.sh
+
+[Install]
+WantedBy=multi-user.target

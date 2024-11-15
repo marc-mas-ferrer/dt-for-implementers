@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: calculationservice
+spec:
+  selector:
+    matchLabels:
+      app: calculationservice
+  template:
+    metadata:
+      labels:
+        app: calculationservice
+        app.kubernetes.io/part-of: easytrade
+        app.kubernetes.io/version: {{.Values.version}}
+        dynatrace-release-stage: {{.Values.stage}}
+    spec:
+      containers:
+      - name: calculationservice
+        image: "{{ .Values.easytrade.images.registry }}/calculationservice:{{ .Values.easytrade.images.tag }}"
+        envFrom:
+        - configMapRef:
+            name: dt-release-info
+        resources:
+          requests:
+            cpu: 10m
+            memory: 10Mi

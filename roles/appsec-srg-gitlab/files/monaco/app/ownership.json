@@ -1,0 +1,37 @@
+{
+  "name": "{{ .name }}",
+  "identifier": "{{ .identifier }}",
+  "supplementaryIdentifiers": [],
+  "responsibilities": {
+    "development": true,
+    "security": true,
+    "operations": true,
+    "infrastructure": true,
+    "lineOfBusiness": true
+  },
+  "contactDetails": [
+    {
+      "integrationType": "SLACK",
+      "slackChannel": "perform-hot-appsec-testing",
+      "url": null
+    },
+    {
+      "integrationType": "EMAIL",
+      "email": "{{ .email }}"
+    },
+    {
+      "jira": {
+        "project": "{{ .gitlabProjectId }}",
+        "defaultAssignee": "{{ .gitlabDefaultAssigneeId }}"
+      },
+      "integrationType": "JIRA"
+    }
+  ],
+  "links": [],
+  "additionalInformation": [
+    {
+      "key": "Solution",
+      "value": "{{ .solution }}"
+    }
+  ]
+}

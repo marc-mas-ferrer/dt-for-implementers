@@ -1,0 +1,92 @@
+{
+  "title": "{{.name}}",
+  "description": "Demo",
+  "tasks": {
+    "get_owners": {
+      "name": "get_owners",
+      "description": "Retrieves entity and extracts ownership data from it.",
+      "action": "dynatrace.ownership:get-ownership-from-entity",
+      "input": {
+        "entityIds": "{{`{{  _.item[\"affected_entity\"] }}`}}",
+        "responsibilities": [
+          "Security"
+        ]
+      },
+      "position": {
+        "x": 0,
+        "y": 3
+      },
+      "predecessors": [
+        "get_environment_url"
+      ],
+      "conditions": {
+        "states": {
+          "get_environment_url": "OK"
+        },
+        "custom": "{{`{{  result(\"get_vulnerabilities\").records|length > 0 }}`}}"
+      },
+      "concurrency": 1,
+      "withItems": "item in {{`{{  result(\"get_vulnerabilities\").records }}`}}"
+    },
+    "get_environment_url": {
+      "name": "get_environment_url",
+      "description": "Build a custom task running js Code",
+      "action": "dynatrace.automations:run-javascript",
+      "input": {
+        "script": "// optional import of sdk modules\nimport { execution } from '@dynatrace-sdk/automation-utils';\n\nexport default async function ({ execution_id }) {\n  // your code goes here\n  // e.g. get the current execution\n  const environmentURL = globalThis.environmentUrl;\n  return environmentURL;\n}"
+      },
+      "position": {
+        "x": 0,
+        "y": 2
+      },
+      "predecessors": [
+        "get_vulnerabilities"
+      ],
+      "conditions": {
+        "states": {
+          "get_vulnerabilities": "OK"
+        },
+        "custom": "{{`{{  result(\"get_vulnerabilities\").records|length > 0 }}`}}"
+      }
+    },
+    "get_vulnerabilities": {
+      "name": "get_vulnerabilities",
+      "description": "Executes DQL query",
+      "action": "dynatrace.automations:execute-dql-query",
+      "input": {
+        "query": "fetch events, from:now() - 30m\n| filter event.provider==\"Dynatrace\"\n| filter event.kind==\"SECURITY_EVENT\"\n| filter event.type==\"VULNERABILITY_STATE_REPORT_EVENT\"\n| filter event.level==\"ENTITY\"\n// filter for the latest snapshot per entity\n| sort timestamp, direction:\"descending\"\n| summarize {\nrisk=takeFirst(vulnerability.risk.level),\nstatus=takeFirst(vulnerability.resolution.status),\nchange_date=takeFirst(vulnerability.parent.resolution.change_date),\ntitle=concat(takeLast(vulnerability.display_id),\" - \",takeLast(vulnerability.title))\n}, by: {affected_entity.id, vulnerability.id}\n// end of filter for the latest snapshot\n| filter status==\"OPEN\"\n| filter in(risk,{\"CRITICAL\",\"HIGH\"})\n// fetch only the vulnerabilities that became OPEN in last hour\n| filter toTimestamp(change_date) > now() - 48h\n| summarize {\nvulnerabilities=collectArray(vulnerability.id),\ntitles=collectArray(title)},\nby:{affected_entity=affected_entity.id}\n| lookup [fetch dt.entity.process_group],\nsourceField:affected_entity,lookupField:id, fields:{entity.name}"
+      },
+      "position": {
+        "x": 0,
+        "y": 1
+      },
+      "predecessors": []
+    },
+    "enrich_ownership_info": {
+      "name": "enrich_ownership_info",
+      "description": "Build a custom task running js Code",
+      "action": "dynatrace.automations:run-javascript",
+      "input": {
+        "script": "// optional import of sdk modules\nimport { execution } from '@dynatrace-sdk/automation-utils';\n\nexport default async function ({ execution_id }) {\n  var ex = await execution(execution_id)\n  var owners_result = await ex.result('get_owners');\n  //var contact_result = await ex.result('get_contact_details');\n  var vulnerabilities_result = await ex.result('get_vulnerabilities');\n  let ownership_info=undefined;\n  let entity_info=undefined;\n  let contact_info=undefined;\n  const with_owners=[];\n  const no_owners=[];\n  \n  let i=0;\n  while(i<vulnerabilities_result.records.length){\n    ownership_info=owners_result[i];\n    entity_info=vulnerabilities_result.records[i];\n    //contact_info=contact_result[i];\n    if(ownership_info[\"owners\"].length > 0){\n      let jira_owners=[];\n      let slack_owners=[];\n      let owner={};\n      for(const item of ownership_info[\"owners\"]){\n        owner.name = item.name;  \n        owner.id = item.identifier;\n        for(const contact of item.contactDetails){\n          if(contact[\"integrationType\"]==\"SLACK\"){\n            owner.slack_channel=contact.slackChannel;\n            owner.slack_url=contact.url;\n          }\n          if(contact[\"integrationType\"]==\"JIRA\"){\n            owner.jira={};\n            owner.jira.project=contact.jira.project;\n            owner.jira.assignee=contact.jira.defaultAssignee;\n          }\n        }\n        if(owner){\n          if(owner.jira){\n            jira_owners.push(owner); \n          }\n          else if(owner.slack_channel){\n            slack_owners.push(owner);\n          }\n        }\n      }\n      if(jira_owners.length > 0){\n        entity_info.ownership=jira_owners;\n        with_owners.push(entity_info);\n      }\n      else if(slack_owners.length > 0){\n        entity_info.ownership=slack_owners;\n        with_owners.push(entity_info);\n      }\n      else{\n        no_owners.push(entity_info);\n      }\n    }\n    else{\n      no_owners.push(entity_info);\n    }\n    i=i+1;\n  }\n  \n  return { \n    \"with_owners\": with_owners,\n    \"no_owners\": no_owners\n  };\n}"
+      },
+      "position": {
+        "x": 0,
+        "y": 4
+      },
+      "predecessors": [
+        "get_owners"
+      ],
+      "conditions": {
+        "states": {
+          "get_owners": "OK"
+        }
+      }
+    }
+  },
+  "actor": "233904e9-2083-4225-a180-23bacb149209",
+  "owner": "233904e9-2083-4225-a180-23bacb149209",
+  "ownerType": "USER",
+  "isPrivate": false,
+  "trigger": {},
+  "schemaVersion": 3
+}

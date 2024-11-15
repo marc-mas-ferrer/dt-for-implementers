@@ -1,0 +1,5 @@
+{
+    "name": "my.gitlab.connection",
+    "url": "{{ .gitlab_url }}",
+    "token": "{{ .gitlab_private_token }}"
+}

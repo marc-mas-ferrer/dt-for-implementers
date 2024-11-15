@@ -1,0 +1,67 @@
+{
+  "description": "",
+  "isPrivate": false,
+  "ownerType": "USER",
+  "tasks": {
+    "fetch_existing_issue": {
+      "action": "dynatrace.jira:jira-jql-search",
+      "active": true,
+      "conditions": {
+        "states": {
+          "get_ownership": "OK"
+        }
+      },
+      "description": "Execute JQL queries to fetch issues from Jira",
+      "input": {
+        "connectionId": "{{.appdynatracejiraconnection__525d4023de8f306bbb0c3d76ee3b6452__id}}",
+        "expand": [],
+        "fields": [],
+        "jql": "Project = \"Security Incident Management\" AND\nSummary ~ \"{{`{{`}} event()['vulnerability.references.cve']|first {{`}}`}}-{{`{{`}} event()['affected_entity.id'] {{`}}`}}\" AND\nStatus not in (\"canceled\", \"closed\")",
+        "maxResults": 10
+      },
+      "name": "fetch_existing_issue",
+      "position": {
+        "x": 0,
+        "y": 2
+      },
+      "predecessors": [
+        "get_ownership"
+      ]
+    },
+    "get_ownership": {
+      "action": "dynatrace.ownership:get-ownership-from-entity",
+      "description": "Retrieves owners from Entities and Team identifiers.",
+      "input": {
+        "entityIds": "{{`{{`}} event()[\"affected_entity.id\"] {{`}}`}}",
+        "selectedTeamIdentifiers": []
+      },
+      "name": "get_ownership",
+      "position": {
+        "x": 0,
+        "y": 1
+      },
+      "predecessors": []
+    }
+  },
+  "throttle": {
+    "isLimitHit": false,
+    "limitEvents": []
+  },
+  "title": "{{.name}}",
+  "trigger": {
+    "eventTrigger": {
+      "filterQuery": "dt.system.bucket==\"default_security_events\" AND\nevent.provider==\"Dynatrace\" AND\nevent.type==\"VULNERABILITY_STATUS_CHANGE_EVENT\" AND\nevent.level==\"ENTITY\" AND\nvulnerability.mute.status == \"NOT_MUTED\" AND\nevent.status == \"OPEN\" AND\nvulnerability.parent.resolution.status == \"OPEN\" AND\nvulnerability.parent.mute.status == \"NOT_MUTED\" AND\nvulnerability.risk.level == \"CRITICAL\" AND\nvulnerability.stack == \"CODE_LIBRARY\"\n",
+      "isActive": true,
+      "triggerConfiguration": {
+        "type": "event",
+        "value": {
+          "eventType": "events",
+          "query": "dt.system.bucket==\"default_security_events\" AND\nevent.provider==\"Dynatrace\" AND\nevent.type==\"VULNERABILITY_STATUS_CHANGE_EVENT\" AND\nevent.level==\"ENTITY\" AND\nvulnerability.mute.status == \"NOT_MUTED\" AND\nevent.status == \"OPEN\" AND\nvulnerability.parent.resolution.status == \"OPEN\" AND\nvulnerability.parent.mute.status == \"NOT_MUTED\" AND\nvulnerability.risk.level == \"CRITICAL\" AND\nvulnerability.stack == \"CODE_LIBRARY\"\n"
+        }
+      },
+      "uniqueExpression": null
+    }
+  },
+  "triggerType": "Event",
+  "usages": []
+}
