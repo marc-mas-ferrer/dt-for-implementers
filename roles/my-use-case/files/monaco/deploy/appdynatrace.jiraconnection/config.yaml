@@ -3,7 +3,7 @@ configs:
   config:
     name: name
     template: 525d4023-de8f-306b-bb0c-3d76ee3b6452.json
-    skip: true
+    skip: false
   type:
     settings:
       schema: app:dynatrace.jira:connection
