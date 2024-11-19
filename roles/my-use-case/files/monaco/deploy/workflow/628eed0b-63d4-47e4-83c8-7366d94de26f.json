@@ -2,7 +2,6 @@
   "description": "",
   "isPrivate": false,
   "ownerType": "USER",
-  "schemaVersion": 3,
   "taskDefaults": {},
   "tasks": {
     "execute_account_enumeration": {
@@ -27,5 +26,4 @@
   "trigger": {},
   "triggerType": "Manual",
   "usages": [],
-  "version": 2
 }
