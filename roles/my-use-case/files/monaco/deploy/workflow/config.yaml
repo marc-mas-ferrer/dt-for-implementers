@@ -23,7 +23,7 @@ configs:
       type: value
       value: Account Enumeration Simulation
     template: 628eed0b-63d4-47e4-83c8-7366d94de26f.json
-    skip: true
+    skip: false
   type:
     automation:
       resource: workflow
