@@ -126,6 +126,8 @@
     name: microk8s
 - include_role:
     name: dt-operator-version-detection
+  vars:
+    dt_operator_release: "v1.4.0-rc.0"
 - include_role:
     name: appsec-srg-gitlab
 
