@@ -9,7 +9,7 @@ metadata:
   namespace: dynatrace
 type: Opaque
 ---
-apiVersion: dynatrace.com/v1beta1
+apiVersion: dynatrace.com/v1beta3
 kind: DynaKube
 metadata:
   name: dynakube
@@ -157,6 +157,18 @@ spec:
 
   # Configuration for ActiveGate instances.
   #
+  templates:
+    kspmNodeConfigurationCollector:
+      imageRef:
+        repository: public.ecr.aws/dynatrace/dynatrace-k8s-node-config-collector
+  #      tag: <tag>
+      tolerations:
+        - effect: NoSchedule
+          key: node-role.kubernetes.io/master
+          operator: Exists
+        - effect: NoSchedule
+          key: node-role.kubernetes.io/control-plane
+          operator: Exists
   activeGate:
     # Specifies which capabilities will be enabled on ActiveGate instances
     # The following capabilities can be set:
@@ -225,9 +237,9 @@ spec:
     # Optional: Defines a custom properties file, the file contents can be provided either as a value in this yaml or as a reference to a secret.
     # If a reference to a secret is used, then the file contents must be stored under the 'customProperties' key within the secret.
     #
-     customProperties:
-       value: |
-         [kubernetes_monitoring]
+    customProperties:
+      value: |
+          [kubernetes_monitoring]
           kubernetes_configuration_dataset_pipeline_enabled = true
           kubernetes_configuration_dataset_pipeline_include_node_config = true
     #   valueFrom: myCustomPropertiesConfigMap
