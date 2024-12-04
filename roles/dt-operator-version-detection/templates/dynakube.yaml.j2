@@ -225,10 +225,11 @@ spec:
     # Optional: Defines a custom properties file, the file contents can be provided either as a value in this yaml or as a reference to a secret.
     # If a reference to a secret is used, then the file contents must be stored under the 'customProperties' key within the secret.
     #
-    # customProperties:
-    #   value: |
-    #     [connectivity]
-    #     networkZone=
+     customProperties:
+       value: |
+         [kubernetes_monitoring]
+          kubernetes_configuration_dataset_pipeline_enabled = true
+          kubernetes_configuration_dataset_pipeline_include_node_config = true
     #   valueFrom: myCustomPropertiesConfigMap
 
     # Optional: Specifies the name of a secret containing a TLS certificate, a TLS key and the TLS key's password to be used by ActiveGate instances
