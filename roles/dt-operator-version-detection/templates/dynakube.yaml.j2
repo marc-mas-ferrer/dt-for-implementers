@@ -160,8 +160,8 @@ spec:
   templates:
     kspmNodeConfigurationCollector:
       imageRef:
-        repository: public.ecr.aws/dynatrace/dynatrace-k8s-node-config-collector
-  #      tag: <tag>
+        repository: registry.lab.dynatrace.org/casp/dynatrace-k8s-node-config-collector
+        tag: 1.0.0
       tolerations:
         - effect: NoSchedule
           key: node-role.kubernetes.io/master
