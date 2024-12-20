@@ -16,7 +16,7 @@
         "connectionId": "{{.appdynatracejiraconnection__525d4023de8f306bbb0c3d76ee3b6452__id}}",
         "expand": [],
         "fields": [],
-        "jql": "Project = \"Security Incident Management\" AND\nSummary ~ \"{{`{{`}} event()['vulnerability.references.cve']|first {{`}}`}}-{{`{{`}} event()['affected_entity.id'] {{`}}`}}\" AND\nStatus not in (\"canceled\", \"closed\")",
+        "jql": "Project = \"Security Incident Management\" AND\nSummary ~ \"{{`{{`}} event()['vulnerability.references.cve']|first {{`}}`}}-{{`{{`}} event()['affected_entity.id'] {{`}}`}}\" AND\nStatus not in (\"closed\")",
         "maxResults": 10
       },
       "name": "fetch_existing_issue",
@@ -51,7 +51,7 @@
   "trigger": {
     "eventTrigger": {
       "filterQuery": "dt.system.bucket==\"default_security_events\" AND\nevent.provider==\"Dynatrace\" AND\nevent.type==\"VULNERABILITY_STATUS_CHANGE_EVENT\" AND\nevent.level==\"ENTITY\" AND\nvulnerability.mute.status == \"NOT_MUTED\" AND\nevent.status == \"OPEN\" AND\nvulnerability.parent.resolution.status == \"OPEN\" AND\nvulnerability.parent.mute.status == \"NOT_MUTED\" AND\nvulnerability.risk.level == \"CRITICAL\" AND\nvulnerability.stack == \"CODE_LIBRARY\"\n",
-      "isActive": true,
+      "isActive": false,
       "triggerConfiguration": {
         "type": "event",
         "value": {
