@@ -1,7 +1,7 @@
 {
-  "name": "InnovateHOTJiraConnection",
-  "url": "https://innovatehotlabs.atlassian.net",
+  "name": "PerformHOTJiraConnection",
+  "url": "https://perform-hot-labs-2025.atlassian.net",
   "type": "cloud-token",
-  "user": "innovatehotlabs-vulnerability-mgmt@outlook.com",
+  "user": "vulnerability-mgmt@outlook.com",
   "token": "{{.jira_connection_token}}"
 }
