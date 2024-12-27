@@ -11,7 +11,7 @@ configs:
         property: id
         type: reference
     template: 4f4fb22d-abd0-4209-9e64-5c01f2fc525c.json
-    skip: false
+    skip: true
     originObjectId: 4f4fb22d-abd0-4209-9e64-5c01f2fc525c
   type:
     automation:

@@ -45,7 +45,7 @@
           grant_type: "client_credentials"
           client_id: "{{ extra_vars.dt_oauth_client_id }}"
           client_secret: "{{ extra_vars.dt_oauth_client_secret }}"
-          scope: "document:documents:read document:documents:write document:direct-shares:read document:direct-shares:write"
+          scope: "document:documents:read document:documents:write document:direct-shares:read document:direct-shares:write automation:workflows:write"
           resource: "{{ extra_vars.dt_oauth_account_urn }}"
       register: auth_response_raw
     - set_fact:
@@ -121,6 +121,17 @@
       DT_OAUTH_CLIENT_ID: "{{ extra_vars.dt_oauth_client_id }}"
       DT_OAUTH_CLIENT_SECRET: "{{ extra_vars.dt_oauth_client_secret }}"
       DT_OAUTH_SSO_ENDPOINT: "{{ extra_vars.dt_oauth_sso_endpoint }}"
+
+- name: Add workflow
+  shell: >
+    curl -X POST \
+    '{{ extra_vars.dt_environment_url_gen3 }}/platform/automation/v1/workflows' \ 
+    -H 'Accept: application/json' \
+    -H 'Content-Type: application/json' \
+    -H 'Authorization: Bearer {{ dt_oauth_access_token }}' \
+    --data-binary "@/home/$USER/repos/ace-box-ext-hot-security-perform-2025/roles/my-use-case/files/monaco/deploy/workflow/jira-issue-for-vulnerabilities.json" 
+    -i
+  register: auth_response_raw
 
 - include_role:
     name: microk8s
