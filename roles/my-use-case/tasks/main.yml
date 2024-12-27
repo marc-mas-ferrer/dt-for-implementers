@@ -122,6 +122,16 @@
       DT_OAUTH_CLIENT_SECRET: "{{ extra_vars.dt_oauth_client_secret }}"
       DT_OAUTH_SSO_ENDPOINT: "{{ extra_vars.dt_oauth_sso_endpoint }}"
 
+- name: Check if the workflow file exists
+  stat:
+    path: "/home/{{ ansible_user }}/repos/ace-box-ext-hot-security-perform-2025/roles/my-use-case/files/monaco/deploy/workflow/jira-issue-for-vulnerabilities.json"
+  register: file_check
+
+- name: Fail if the workflow file is not found
+  fail:
+    msg: "Workflow file not found or not readable: /home/{{ ansible_user }}/repos/ace-box-ext-hot-security-perform-2025/roles/my-use-case/files/monaco/deploy/workflow/jira-issue-for-vulnerabilities.json"
+  when: not file_check.stat.exists or not file_check.stat.isreg
+
 - name: Add workflow
   shell: >
     curl -X POST \
@@ -129,9 +139,23 @@
     -H 'Accept: application/json' \
     -H 'Content-Type: application/json' \
     -H 'Authorization: Bearer {{ dt_oauth_access_token }}' \
-    --data-binary "@/home/$USER/repos/ace-box-ext-hot-security-perform-2025/roles/my-use-case/files/monaco/deploy/workflow/jira-issue-for-vulnerabilities.json" 
+    --data-binary "@/home/{{ ansible_user }}/repos/ace-box-ext-hot-security-perform-2025/roles/my-use-case/files/monaco/deploy/workflow/jira-issue-for-vulnerabilities.json" \
     -i
   register: auth_response_raw
+  failed_when: auth_response_raw.rc != 0
+  changed_when: False
+
+- name: Log the response from the API
+  debug:
+    msg:
+      - "Response Code: {{ auth_response_raw.stdout_lines | select('match', '^HTTP/') | list }}"
+      - "Response Body: {{ auth_response_raw.stdout_lines | difference(auth_response_raw.stdout_lines | select('match', '^HTTP/')) | list }}"
+  when: auth_response_raw is defined
+
+- name: Fail if API response indicates an error
+  fail:
+    msg: "API call failed with response: {{ auth_response_raw.stdout }}"
+  when: "'HTTP/1.1 200 OK' not in auth_response_raw.stdout"
 
 - include_role:
     name: microk8s
