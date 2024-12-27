@@ -139,7 +139,7 @@
     -H 'Accept: application/json' \
     -H 'Content-Type: application/json' \
     -H 'Authorization: Bearer {{ dt_oauth_access_token }}' \
-    --data-binary "@/home/{{ ansible_user }}/repos/ace-box-ext-hot-security-perform-2025/roles/my-use-case/files/monaco/deploy/workflow/jira-issue-for-vulnerabilities.json" \
+    --data-binary "@/home/$USER/repos/ace-box-ext-hot-security-perform-2025/roles/my-use-case/files/monaco/deploy/workflow/jira-issue-for-vulnerabilities.json" \
     -i
   register: auth_response_raw
   failed_when: auth_response_raw.rc != 0
