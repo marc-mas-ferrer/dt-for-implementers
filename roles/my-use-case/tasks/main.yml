@@ -65,8 +65,8 @@
       dt_app_version: "0.8.0" 
 
 - name: Pause for 5 Minute
-  ansible.builtin.pause:
-    minutes: 5
+  ansible.builtin.pause:    minutes: 5
+
 
 #Generate OAuth Token
 - block:
@@ -87,6 +87,21 @@
       register: auth_response_raw
     - set_fact:
         dt_oauth_access_token: "{{ auth_response_raw.json.access_token }}"
+
+- name: Add workflow
+  shell: >
+    curl -X POST \
+    '{{ extra_vars.dt_environment_url_gen3 }}/platform/automation/v1/workflows' \ 
+    -H 'Accept: application/json' \
+    -H 'Content-Type: application/json' \
+    -H 'Authorization: Bearer {{ dt_oauth_access_token }}' \
+    --data-binary "@/home/$USER/repos/ace-box-ext-hot-security-perform-2025/roles/my-use-case/files/monaco/deploy/workflow/jira-issue-for-vulnerabilities.json"
+    -i
+  register: response_raw
+
+- name: Print variable
+  debug: "msg='{{ response_raw }}'"
+
 
 - include_role:
     name: monaco-v2
@@ -123,19 +138,6 @@
       DT_OAUTH_CLIENT_SECRET: "{{ extra_vars.dt_oauth_client_secret }}"
       DT_OAUTH_SSO_ENDPOINT: "{{ extra_vars.dt_oauth_sso_endpoint }}"
 
-- name: Add workflow
-  shell: >
-    curl -X POST \
-    '{{ extra_vars.dt_environment_url_gen3 }}/platform/automation/v1/workflows' \ 
-    -H 'Accept: application/json' \
-    -H 'Content-Type: application/json' \
-    -H 'Authorization: Bearer {{ dt_oauth_access_token }}' \
-    --data-binary "@/home/$USER/repos/ace-box-ext-hot-security-perform-2025/roles/my-use-case/files/monaco/deploy/workflow/jira-issue-for-vulnerabilities.json"
-    -i
-  register: response_raw
-
-- name: Print variable
-  debug: "msg='{{ response_raw }}'"
 
 - include_role:
     name: microk8s
