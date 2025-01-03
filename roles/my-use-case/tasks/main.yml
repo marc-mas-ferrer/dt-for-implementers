@@ -65,7 +65,8 @@
       dt_app_version: "0.8.0" 
 
 - name: Pause for 30 Minute
-  ansible.builtin.pause:    minutes: 5
+  ansible.builtin.pause:
+    minutes: 30
 
 
 #Generate OAuth Token
