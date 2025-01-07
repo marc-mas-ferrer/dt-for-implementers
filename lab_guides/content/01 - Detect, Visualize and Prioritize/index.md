@@ -1,22 +1,24 @@
 ## 1 Detect, Prioritize and Visualize
 
 ## 1.1 Verify access to the environment
-Before we get started with the exercises, let's start with a few setup steps.
+Before starting the exercises, let's begin with a few setup steps.
 
 In Dynatrace University, you'll find the information on how to access the environment required for the labs. Please make sure you can:
 - Access the Dynatrace Environment using a web browser
-- Connect to the bastion host using SSH
+<!-- - Connect to the bastion host using SSH
 
 ![Environment](../../assets/images/1-1-environment.png)
+
 ## 1.2 Verify access to Dashboard
-To access your vulnerable application instances, you need their URLs. In order to get them, on your University event, open the `Environments` tab and click on `Open terminal`. This will open a terminal to the VM. 
+To access your vulnerable application instances, you need their URLs. To get them, on your University event, open the `Environments` tab and click on `Open terminal.` This will open a terminal to the VM. 
 This will give you the links to the resources used during this HOT session, as seen in the screenshot below.
 
 For links to Unguard and WebGoat, please connect to your environment. The links will be provided on login.
 
-![](../../assets/images/1-1-acebox.png)
+![](../../assets/images/1-1-acebox.png) -->
 
-## 1.3 Lab Goals
+<!-- ## 1.3 Lab Goals -->
+## 1.2 Lab Goals
 
 The main goals for the present hands-on exercise are:
 1. Illustrate Dynatrace _Vulnerabilities_ app capabilities and how to use it
@@ -24,8 +26,8 @@ The main goals for the present hands-on exercise are:
 3. Demonstrate how to seamlessly build reports from vulnerability detection data
 4. Showcase Dynatrace _Release Monitoring_ capabilities
 
-
-## 1.4 Find most critical vulnerabilities
+<!-- ## 1.4 Find most critical vulnerabilities -->
+## 1.3 Find the most critical vulnerabilities
 
 Go to your Dynatrace Environment and navigate to the _Vulnerabilities_ view: 
 - Click on Apps in the navigation on the left side
@@ -44,8 +46,8 @@ From the remaining vulnerabilities, click on the first one to see the details an
 - Which processes are impacted by this vulnerability?
 - What do you need to do to resolve it?
 
-
-## 1.5 Create a report
+<!-- ## 1.5 Create a report -->
+## 1.4 Create a report
 
 Now let's create a report that we can show to the CISO. Navigate back to the overview (click on Prioritization). At the top of the table, there is a button called Create report that allows you to generate a report (Dashboard) based on the current selection. You can either create a dashboard from scratch or use a template. There is already a template called Threat exposure that we can use for our needs:
 - Click on Create report at the top of the table
@@ -55,8 +57,9 @@ Now let's create a report that we can show to the CISO. Navigate back to the ove
 
 This will create a dashboard based on the selected filters that can be used to share and track the evolution of the vulnerabilities.
 
+<!-- ### 1.6 Monitor applications and releases -->
+### 1.5 Monitor applications and releases
 
-### 1.6 Monitor applications and releases
 So far we looked at the vulnerabilities from a global perspective, but often you want to know what vulnerabilities an application has, or more precisly, a certain version of an application that is deployed. In order to get that information, we can use the [Release monitoring](https://docs.dynatrace.com/docs/shortlink/release-hub) capability in Dynatrace. 
 
 In order to see which versions or our applications are deployed in which environments, you can take a look at the Release monitoring view. Click on Apps in the navigation and select Releases in the Automation section. 
