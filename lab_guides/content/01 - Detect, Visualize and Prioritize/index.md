@@ -71,7 +71,7 @@ Download the JSON file, navigate to the dashboards in Dynatrace and select *uplo
 
 ![](../../assets/images/1-6-import-dashboard.png)
 
-> [!CAUTION]
+> [!NOTE]
 > When you open a document from another user, you may see the following message:
 > This dashboard contains custom code. It is read-only until you review the code and select “Accept and run”.
 > If you receive this prompt, please accept and run the code. 
