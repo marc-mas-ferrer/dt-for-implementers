@@ -7,7 +7,7 @@ Under the "Environments" tab Within Dynatrace University, you'll find the inform
 - Access the Dynatrace Environment using a web browser
 - Connect to the ACE Box Terminal
 
-![Environment](../../assets/images/1-1-DT_Uni_Environment.png)
+![Environment](../../assets/images/1-1-DT_LabEnvironment.png)
 
 ## 1.2 Verify access to Dashboard
 Click on `Open terminal.` This will establish a connection with the virtual machine within the lab environment and display a prompt at the bottom of the page. 
