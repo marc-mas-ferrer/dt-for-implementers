@@ -58,7 +58,7 @@ Now let's create a report that we can show to the CISO. Navigate back to the ove
 This will create a dashboard based on the selected filters that can be used to share and track the evolution of the vulnerabilities.
 
 <!-- ### 1.6 Monitor applications and releases -->
-### 1.5 Monitor applications and releases
+## 1.5 Monitor applications and releases
 
 So far we looked at the vulnerabilities from a global perspective, but often you want to know what vulnerabilities an application has, or more precisly, a certain version of an application that is deployed. In order to get that information, we can use the [Release monitoring](https://docs.dynatrace.com/docs/shortlink/release-hub) capability in Dynatrace. 
 
