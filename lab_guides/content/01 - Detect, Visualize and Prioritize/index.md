@@ -49,7 +49,7 @@ From the remaining vulnerabilities, click on the first one to see the details an
 <!-- ## 1.5 Create a report -->
 ## 1.4 Create a report
 
-Now let's create a report that we can show to the CISO. Navigate back to the overview (click on Prioritization). At the top of the table, there is a button called Create report that allows you to generate a report (Dashboard) based on the current selection. You can either create a dashboard from scratch or use a template. There is already a template called Threat exposure that we can use for our needs:
+Now let's create a report that we can show to the CISO. Navigate back to the overview (click on Prioritization). At the top of the table is a button called Create report that allows you to generate a report (Dashboard) based on the current selection. You can either create a dashboard from scratch or use a template. There is already a template called Threat exposure that we can use for our needs:
 - Click on Create report at the top of the table
 - Select the Threat exposure dashboard
 
@@ -60,7 +60,7 @@ This will create a dashboard based on the selected filters that can be used to s
 <!-- ### 1.6 Monitor applications and releases -->
 ## 1.5 Monitor applications and releases
 
-So far we looked at the vulnerabilities from a global perspective, but often you want to know what vulnerabilities an application has, or more precisly, a certain version of an application that is deployed. In order to get that information, we can use the [Release monitoring](https://docs.dynatrace.com/docs/shortlink/release-hub) capability in Dynatrace. 
+So far, we looked at the vulnerabilities from a global perspective, but often you want to know what vulnerabilities an application has, or more precisely, a certain version of an application that is deployed. In order to get that information, we can use the [Release monitoring](https://docs.dynatrace.com/docs/shortlink/release-hub) capability in Dynatrace. 
 
 In order to see which versions or our applications are deployed in which environments, you can take a look at the Release monitoring view. Click on Apps in the navigation and select Releases in the Automation section. 
 This gives you an overview of the different versions of each application that are deployed. But in order to get more details out of it and create a overview of the vulnerabilities per application, we can leverage the dashboarding capabilities in Dynatrace.
