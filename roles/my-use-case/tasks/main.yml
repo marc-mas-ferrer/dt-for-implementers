@@ -79,7 +79,7 @@
     - include_tasks:
         file: add-gen3-workflow.yml
       vars:
-        path_to_workflow: "{{ usecase_dest }}/files/monaco/deploy/workflow/jira-issue-for-vulnerabilities.json"
+        path_to_workflow: "{{ role_path_abs }}/files/monaco/deploy/workflow/jira-issue-for-vulnerabilities.json"
         workflow_name: "ira-issue-for-vulnerabilities"
       ignore_errors: yes
     - set_fact:
