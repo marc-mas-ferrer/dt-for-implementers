@@ -95,7 +95,7 @@
 - include_tasks:
     file: add-gen3-dashboard.yml
   vars:
-    path_to_dashboard: ace-box-ext-hot-security-perform-2025/roles/my-use-case/files/dashboards/release-monitoring.json
+    path_to_dashboard: "{{ role_path_abs }}/files/dashboards/release-monitoring.json"
     dashboard_name: "Release Monitoring"
 
 - include_role:
