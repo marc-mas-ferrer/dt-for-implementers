@@ -64,23 +64,13 @@
     - dt_app_id: "dynatrace.github.connector"
       dt_app_version: "0.8.0" 
 
-# Generate OAuth Token
-- include_role:
-    name: dt-oauth-token
-  vars:
-    dt_oauth_sso_endpoint: "{{ extra_vars.dt_oauth_sso_endpoint }}"
-    dt_oauth_client_id: "{{ extra_vars.dt_oauth_client_id }}"
-    dt_oauth_client_secret: "{{ extra_vars.dt_oauth_client_secret }}"
-    dt_oauth_scope: "document:documents:read document:documents:write document:direct-shares:read document:direct-shares:write automation:workflows:write"
-    dt_oauth_account_urn: "{{ extra_vars.dt_oauth_account_urn }}"
-
 - name: Upload Dynatrace Workflows
   block:
     - include_tasks:
         file: add-gen3-workflow.yml
       vars:
         path_to_workflow: "{{ role_path_abs }}/files/monaco/deploy/workflow/jira-issue-for-vulnerabilities.json"
-        workflow_name: "ira-issue-for-vulnerabilities"
+        workflow_name: "Jira-issue-for-vulnerabilities"
       ignore_errors: yes
     - set_fact:
         lifecycle_workflow_id: "{{ workflow_id }}"
@@ -97,6 +87,17 @@
   vars:
     path_to_dashboard: "{{ role_path_abs }}/files/dashboards/release-monitoring.json"
     dashboard_name: "Release Monitoring"
+
+
+# # Generate OAuth Token
+# - include_role:
+#     name: dt-oauth-token
+#   vars:
+#     dt_oauth_sso_endpoint: "{{ extra_vars.dt_oauth_sso_endpoint }}"
+#     dt_oauth_client_id: "{{ extra_vars.dt_oauth_client_id }}"
+#     dt_oauth_client_secret: "{{ extra_vars.dt_oauth_client_secret }}"
+#     dt_oauth_scope: "document:documents:read document:documents:write document:direct-shares:read document:direct-shares:write automation:workflows:write"
+#     dt_oauth_account_urn: "{{ extra_vars.dt_oauth_account_urn }}"
 
 - include_role:
     name: monaco-v2
@@ -133,13 +134,14 @@
       DT_OAUTH_CLIENT_SECRET: "{{ extra_vars.dt_oauth_client_secret }}"
       DT_OAUTH_SSO_ENDPOINT: "{{ extra_vars.dt_oauth_sso_endpoint }}"
 
-
 - include_role:
     name: microk8s
+
 - include_role:
     name: dt-operator-version-detection
   vars:
     dt_operator_release: "v1.4.0"
+
 - include_role:
     name: appsec-srg-gitlab
 
@@ -149,8 +151,10 @@
 
 - include_role:
     name: easytrade
+
 - include_role:
     name: unguard
+
 - include_role:
     name: unguard-dev
 
