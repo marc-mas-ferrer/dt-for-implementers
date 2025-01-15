@@ -48,13 +48,13 @@
     "title": "Jira Issue for Vulnerabilities",
     "trigger": {
       "eventTrigger": {
-        "filterQuery": "dt.system.bucket==\"default_security_events\" AND\nevent.provider==\"Dynatrace\" AND\nevent.type==\"VULNERABILITY_STATUS_CHANGE_EVENT\" AND\nevent.level==\"ENTITY\" AND\nvulnerability.mute.status == \"NOT_MUTED\" AND\nevent.status == \"OPEN\" AND\nvulnerability.parent.resolution.status == \"OPEN\" AND\nvulnerability.parent.mute.status == \"NOT_MUTED\" AND\nvulnerability.stack == \"CODE_LIBRARY\"\n",
+        "filterQuery": "dt.system.bucket==\"default_security_events\" AND\nevent.provider==\"Dynatrace\" AND\nevent.type==\"VULNERABILITY_STATUS_CHANGE_EVENT\" AND\nevent.level==\"ENTITY\" AND\nvulnerability.mute.status == \"NOT_MUTED\" AND\nevent.status == \"OPEN\" AND\nvulnerability.parent.resolution.status == \"OPEN\" AND\nvulnerability.parent.mute.status == \"NOT_MUTED\" AND\nvulnerability.stack == \"CODE_LIBRARY\" AND\nisNotNull(vulnerability.references.cve)\n",
         "isActive": false,
         "triggerConfiguration": {
           "type": "event",
           "value": {
             "eventType": "events",
-            "query": "dt.system.bucket==\"default_security_events\" AND\nevent.provider==\"Dynatrace\" AND\nevent.type==\"VULNERABILITY_STATUS_CHANGE_EVENT\" AND\nevent.level==\"ENTITY\" AND\nvulnerability.mute.status == \"NOT_MUTED\" AND\nevent.status == \"OPEN\" AND\nvulnerability.parent.resolution.status == \"OPEN\" AND\nvulnerability.parent.mute.status == \"NOT_MUTED\" AND\nvulnerability.stack == \"CODE_LIBRARY\"\n"
+            "query": "dt.system.bucket==\"default_security_events\" AND\nevent.provider==\"Dynatrace\" AND\nevent.type==\"VULNERABILITY_STATUS_CHANGE_EVENT\" AND\nevent.level==\"ENTITY\" AND\nvulnerability.mute.status == \"NOT_MUTED\" AND\nevent.status == \"OPEN\" AND\nvulnerability.parent.resolution.status == \"OPEN\" AND\nvulnerability.parent.mute.status == \"NOT_MUTED\" AND\nvulnerability.stack == \"CODE_LIBRARY\" AND\nisNotNull(vulnerability.references.cve)\n"
           }
         },
         "uniqueExpression": null
