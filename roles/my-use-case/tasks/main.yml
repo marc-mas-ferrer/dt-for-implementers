@@ -87,7 +87,8 @@
   vars:
     path_to_dashboard: "{{ role_path_abs }}/files/dashboards/release-monitoring.json"
     dashboard_name: "Release Monitoring"
-
+- include_role:
+    name: monaco-v2
 - include_role:
     name: microk8s
 
@@ -135,8 +136,7 @@
         "logs.ingest"
       ]
 
-- include_role:
-    name: monaco-v2
+
 - include_role:
     name: monaco-v2
     tasks_from: apply-monaco
