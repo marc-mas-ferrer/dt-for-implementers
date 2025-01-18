@@ -112,8 +112,6 @@
 - include_role:
     name: unguard-dev
 - include_role:
-    name: monaco-v2
-- include_role:
     name: dt-access-token
   vars:
     access_token_var_name: "monaco_cleanup_api_token"
@@ -137,6 +135,8 @@
         "logs.ingest"
       ]
 
+- include_role:
+    name: monaco-v2
 - include_role:
     name: monaco-v2
     tasks_from: apply-monaco
