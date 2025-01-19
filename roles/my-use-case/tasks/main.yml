@@ -9,30 +9,6 @@
     role_path_abs: "{{ role_path }}"
 
 - include_role:
-    name: dt-access-token
-  vars:
-    access_token_var_name: "monaco_cleanup_api_token"
-    access_token_scope:
-      [
-        "slo.read",
-        "slo.write",
-        "CaptureRequestData",
-        "credentialVault.read",
-        "credentialVault.write",
-        "DataExport",
-        "DataPrivacy",
-        "ExternalSyntheticIntegration",
-        "ReadConfig",
-        "WriteConfig",
-        "events.ingest",
-        "settings.read",
-        "settings.write",
-        "metrics.ingest",
-        "openTelemetryTrace.ingest",
-        "logs.ingest"
-      ]
-
-- include_role:
     name: dt-platform
     tasks_from: ensure-app
   vars:
@@ -64,54 +40,15 @@
     - dt_app_id: "dynatrace.github.connector"
       dt_app_version: "0.8.0" 
 
-- name: Upload Dynatrace Workflows
-  block:
-    - include_tasks:
-        file: add-gen3-workflow.yml
-      vars:
-        path_to_workflow: "{{ role_path_abs }}/files/monaco/deploy/workflow/jira-issue-for-vulnerabilities.json"
-        workflow_name: "Jira-issue-for-vulnerabilities"
-      ignore_errors: yes
-    - set_fact:
-        lifecycle_workflow_id: "{{ workflow_id }}"
-  rescue:
-    - name: Rescue Message
-      debug:
-        msg: "Uploading Dynatrace Workflows failed but we keep going"
-    - set_fact:
-        lifecycle_workflow_id: "111"
-
-# Add gen3 Dashboards via API
-- include_tasks:
-    file: add-gen3-dashboard.yml
-  vars:
-    path_to_dashboard: "{{ role_path_abs }}/files/dashboards/release-monitoring.json"
-    dashboard_name: "Release Monitoring"
-- include_role:
-    name: monaco-v2
 - include_role:
     name: microk8s
 
-- include_role:
-    name: dt-operator-version-detection
-  vars:
-    dt_operator_release: "v1.4.0"
-
-- include_role:
-    name: appsec-srg-gitlab
-
-- name: Pause for 5 Minute
+- name: Pause for 2 Minute
   ansible.builtin.pause:
-    minutes: 5
+    minutes: 2
 
 - include_role:
-    name: easytrade
-
-- include_role:
-    name: unguard
-
-- include_role:
-    name: unguard-dev
+    name: monaco-v2
 - include_role:
     name: dt-access-token
   vars:
@@ -168,6 +105,53 @@
       DT_OAUTH_CLIENT_ID: "{{ extra_vars.dt_oauth_client_id }}"
       DT_OAUTH_CLIENT_SECRET: "{{ extra_vars.dt_oauth_client_secret }}"
       DT_OAUTH_SSO_ENDPOINT: "{{ extra_vars.dt_oauth_sso_endpoint }}"
+
+- name: Upload Dynatrace Workflows
+  block:
+    - include_tasks:
+        file: add-gen3-workflow.yml
+      vars:
+        path_to_workflow: "{{ role_path_abs }}/files/monaco/deploy/workflow/jira-issue-for-vulnerabilities.json"
+        workflow_name: "Jira-issue-for-vulnerabilities"
+      ignore_errors: yes
+    - set_fact:
+        lifecycle_workflow_id: "{{ workflow_id }}"
+  rescue:
+    - name: Rescue Message
+      debug:
+        msg: "Uploading Dynatrace Workflows failed but we keep going"
+    - set_fact:
+        lifecycle_workflow_id: "111"
+
+# Add gen3 Dashboards via API
+- include_tasks:
+    file: add-gen3-dashboard.yml
+  vars:
+    path_to_dashboard: "{{ role_path_abs }}/files/dashboards/release-monitoring.json"
+    dashboard_name: "Release Monitoring"
+
+
+- include_role:
+    name: dt-operator-version-detection
+  vars:
+    dt_operator_release: "v1.4.0"
+
+
+- include_role:
+    name: appsec-srg-gitlab
+
+- name: Pause for 5 Minute
+  ansible.builtin.pause:
+    minutes: 5
+
+- include_role:
+    name: easytrade
+
+- include_role:
+    name: unguard
+
+- include_role:
+    name: unguard-dev
 
 #- include_role:
 #    name: app-hipstershop
