@@ -1,5 +1,14 @@
 configs:
 
+- id: NODEJS_AGENT_ESM_LOADERS_FORCIBLE
+  config:
+    name: name
+    template: NODEJS_AGENT_ESM_LOADERS_FORCIBLE.json
+    skip: false
+  type:
+    settings:
+      schema: builtin:oneagent.features
+      scope: environment
 
 - id: SENSOR_JAVA_LOG_ENRICHMENT
   config:
