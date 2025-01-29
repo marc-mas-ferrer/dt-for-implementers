@@ -34,26 +34,23 @@ The main goals for the present hands-on exercise are:
 
 # 1.4 Find most critical vulnerabilities
 
-Go to your Dynatrace Environment and navigate to the _Vulnerabilities_ view: 
+Go to your Dynatrace Environment and navigate to the _Vulnerabilities_ app: 
 - Click on Apps in the navigation on the left side
 - In the `Application Security` section, click on the `Vulnerabilities` App
 
 ![](../../assets/images/1-2-vulnerabilities.png)
 
-This view shows you all vulnerabilties that were detected in your environment, by default they are sorted by the vulnerability score. To find the critical thiry-party vulnerabilities that are most at risk (exposed to the internet), we can use the filters at the top. 
-- From Vulnerability Type select `Library` and `Runtime`
-- Under Risk Level select `Critical`
-- Choose `Public Internet Exposure` in the `Risk assessment` dropdown
+All of the vulnerabilities that have been detected will be presented and sorted by their Davis Security Score (DSS) vulnerability score. To find the critical third-party vulnerabilities that are most at risk (exposed to the internet), we can use the filter field at the top. The filter statement can comprise multiple fields, including but not limited to Davis risk level and Davis risk factors. Copy the below screenshot to create the desired filter statement.
 
-![](../../assets/images/1-3-filter-vulnerabilities.png)
+![](../../assets/images/1-3-filter-vulnerabilities-new.png)
 
-From the remaining vulnerabilities, click on the first one to see the details and have a look at the details. Try to answer the following questions:
+From the remaining vulnerabilities, select the first one to see the details and look at them. Try to answer the following questions:
 - Which processes are impacted by this vulnerability?
 - What do you need to do to resolve it?
 
 ## 1.5 Create a report
 
-Now let's create a report that we can show to the CISO. Navigate back to the overview (click on Prioritization). At the top of the table is a button called Create report that allows you to generate a report (Dashboard) based on the current selection. You can either create a dashboard from scratch or use a template. There is already a template called Threat exposure that we can use for our needs:
+Now let's create a report that we can show to the CISO. Navigate back to the overview (click on Prioritization). A Create report button at the top of the table allows you to generate a report (Dashboard) based on the current selection. You can either create a dashboard from scratch or use a template. There is already a template called Threat Exposure that we can use for our needs:
 - Click on Create report at the top of the table
 - Select the Threat exposure dashboard
 
