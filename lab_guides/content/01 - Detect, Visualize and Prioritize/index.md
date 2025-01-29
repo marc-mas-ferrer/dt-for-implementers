@@ -40,7 +40,9 @@ Go to your Dynatrace Environment and navigate to the _Vulnerabilities_ app:
 
 ![](../../assets/images/1-2-vulnerabilities.png)
 
-All detected vulnerabilities will be presented and sorted by their Davis Security Score (DSS) vulnerability score. We can use the filter field at the top to find the critical third-party vulnerabilities that are most at risk (exposed to the internet). The filter statement can comprise multiple fields, including but not limited to Davis risk level and Davis risk factors. Using the screenshot below you'll need to create and complete the field statement that gives the desired outcome. 
+All detected vulnerabilities will be presented and sorted by their Davis Security Score (DSS) vulnerability score. We can use the filter field at the top to find the critical third-party vulnerabilities most at risk (exposed to the internet). The filter statement can comprise multiple fields, including but not limited to Davis risk level and Davis risk factors. 
+
+Using the screenshot below, you'll need to create and complete the field statement that gives the desired outcome. 
 
 ![](../../assets/images/1-3-filter-vulnerabilities-new.png)
 
