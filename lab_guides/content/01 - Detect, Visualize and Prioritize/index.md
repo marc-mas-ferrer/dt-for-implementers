@@ -32,7 +32,7 @@ The main goals for the present hands-on exercise are:
 3. Demonstrate how to seamlessly build reports from vulnerability detection data
 4. Showcase Dynatrace _Release Monitoring_ capabilities
 
-# 1.4 Find most critical vulnerabilities
+## 1.4 Find most critical vulnerabilities
 
 Go to your Dynatrace Environment and navigate to the _Vulnerabilities_ app: 
 - Click on Apps in the navigation on the left side
@@ -50,17 +50,7 @@ From the remaining vulnerabilities, select the first one to see the details and 
 - Which processes are impacted by this vulnerability?
 - What do you need to do to resolve it?
 
-## 1.5 Create a report
-
-Now let's create a report that we can show to the CISO. Navigate back to the overview (click on Prioritization). A Create report button at the top of the table allows you to generate a report (Dashboard) based on the current selection. You can either create a dashboard from scratch or use a template. There is already a template called Threat Exposure that we can use for our needs:
-- Click on Create report at the top of the table
-- Select the Threat exposure dashboard
-
-![](../../assets/images/1-5-report.png)
-
-This will create a dashboard based on the selected filters that can be used to share and track the evolution of the vulnerabilities.
-
-## 1.6 Monitor applications and releases
+## 1.5 Monitor applications and releases
 
 So far, we looked at the vulnerabilities from a global perspective, but often you want to know what vulnerabilities an application has, or more precisely, a certain version of an application that is deployed. In order to get that information, we can use the [Release monitoring](https://docs.dynatrace.com/docs/shortlink/release-hub) capability in Dynatrace. 
 
