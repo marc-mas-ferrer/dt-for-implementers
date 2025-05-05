@@ -50,14 +50,17 @@ Assignee: `root`
 
  #### Trigger the workflow from the pipeline
 
-We now want to add add security gate to our deployment pipeline to understand if future releases of our apps introduce new vulnerabilities. In order to do so, navigate back to gitlab and open the 'gitlab-ci.yaml' file in the root folder of the 'srg-pipeline' repository. 
+We now want to add add security gate to our deployment pipeline to understand if future releases of our apps introduce new vulnerabilities. In order to do so, navigate back to gitlab and open the `gitlab-ci.yaml` file in the root folder of the `srg-pipeline` repository. 
+
+![](../../assets/images/gitlab-file.png)
+
+![](../../assets/images/edit-file.png)
 
 On line 7 change the default value to 5. 
 ```yaml
 value: "5"
 ```
 This will ensure that when you save the yaml file, a new version of the application. 
-
 
 
 On line 178, you can add the following block. All it does is sending an event to Dynatrace that will trigger the evaluation. It passes along the start and end time of test so we evaluate that period. 
@@ -80,5 +83,8 @@ Validate Release with SRG:
     - export LOG_LEVEL=verbose
     - dta srg evaluate --service $SRG_EVALUATION_SERVICE --stage $SRG_EVALUATION_STAGE --start-time=$eval_start --end-time=$eval_end --stop-on-failure
  ```
+![](../../assets/images/pipelines.png)
+
+![](../../assets/images/running-pipeline.png)
 
 
