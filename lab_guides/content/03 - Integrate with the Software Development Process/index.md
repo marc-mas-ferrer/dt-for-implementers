@@ -83,8 +83,14 @@ Validate Release with SRG:
     - export LOG_LEVEL=verbose
     - dta srg evaluate --service $SRG_EVALUATION_SERVICE --stage $SRG_EVALUATION_STAGE --start-time=$eval_start --end-time=$eval_end --stop-on-failure
  ```
+
+After doing the changes, you will can open the list of pipelines and you should see a new pipeline running. 
+
 ![](../../assets/images/pipelines.png)
 
 ![](../../assets/images/running-pipeline.png)
 
 
+### Result
+We see an extra step in the pipeline. This includes the call from the pipeline to the guardian asking for an evaluation and the response from the workflow with the result from the evaluation. Take a look in Dynatrace to see the results of the evaluation! If the release did not pass the security gate, you'll also see an issue in gitlab. 
+![](../../assets/images/pipeline.png)
