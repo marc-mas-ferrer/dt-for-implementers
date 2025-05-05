@@ -6,10 +6,10 @@ In this lab we will integrate a security gate into our deployment pipeline. We w
 
 #### Create Workflow to automate release validation
 
-Open the Site Reliability Guardian app and navigate to the guardian called 'Simplenode Security Guardian'. This guardian evaluates different objectives. 
+Open the Site Reliability Guardian app and navigate to the guardian called `Simplenode Security Guardian`. This guardian evaluates different objectives. 
 ![](../../assets/images/srg-open.png)
 
-To automate the evaluation we can simply click on 'Automate' in the guardian's overview page. 
+To automate the evaluation we can simply click on `Automate` in the guardian's overview page. 
 ![](../../assets/images/srg-automate.png)
 
 
