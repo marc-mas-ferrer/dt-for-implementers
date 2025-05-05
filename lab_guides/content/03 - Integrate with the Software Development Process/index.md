@@ -2,6 +2,8 @@
 
 ### Hands-on Lab: Site Reliability Guardian
 
+In this lab we will integrate a security gate into our deployment pipeline. We will start by defining the objectives of the gate in a "guardian" in Dynatrace. In a second step we will automatically evaluate these objectives inside our Gitlab deployment pipeline. 
+
 #### Create Workflow to automate release validation
 
 Open the Site Reliability Guardian app and navigate to the guardian called 'Simplenode Security Guardian'. This guardian evaluates different objectives. To automate the evaluation we can simply click on 'Automate' in the guardian's overview page. 
