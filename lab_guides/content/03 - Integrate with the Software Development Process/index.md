@@ -19,6 +19,8 @@ We want our trigger to be a bizevent with the following attributes:
 ```sql
 event.type == "guardian.validation.triggered" AND service=="simplenodeservice" AND stage=="staging"
 ```
+![](../../assets/images/workflow-trigger.png)
+
 2. The evaluation is already configured for us.
 
 3.  We can now use the built in gitlab action to create a gitlab issue if a new release fails to meet out quality standards.
