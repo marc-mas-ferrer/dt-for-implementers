@@ -21,7 +21,7 @@ variables:
   IMAGE_TAG: "$RELEASE_BUILD_VERSION"
   #monaco
   MANIFEST_FILE: ./monaco/manifest.yaml
-  MONACO_IMAGE_VERSION: 2.3.1
+  MONACO_IMAGE_VERSION: 2.23.1
   #dta and srg
   DTA_IMAGE_VERSION: latest
   SRG_EVALUATION_SERVICE: "$RELEASE_PRODUCT"
