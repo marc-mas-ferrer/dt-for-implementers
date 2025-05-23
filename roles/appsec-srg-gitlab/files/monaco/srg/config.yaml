@@ -17,6 +17,9 @@ configs:
       settings:
         schema: app:dynatrace.gitlab.connector:connection
         scope: environment
+        permissions:
+          allUsers: read
+        
 
   # srg
   - id: simplenodeguardianappsec
