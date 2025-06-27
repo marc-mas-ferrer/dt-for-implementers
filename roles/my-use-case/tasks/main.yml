@@ -28,7 +28,7 @@
     - dt_app_id: "dynatrace.gitlab.connector"
       dt_app_version: "0.2.2"
     - dt_app_id: "dynatrace.jira"
-      dt_app_version: "4.0.0"
+      dt_app_version: "5.1.0"
     - dt_app_id: "dynatrace.redhat.ansible"
       dt_app_version: "0.3.2"
     - dt_app_id: "dynatrace.servicenow"
