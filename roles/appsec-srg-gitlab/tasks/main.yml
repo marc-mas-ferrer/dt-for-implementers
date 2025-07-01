@@ -28,6 +28,9 @@
     role_path_abs: "{{ role_path }}"
 
 - include_role:
+    name: monaco
+
+- include_role:
     name: monaco-v2
     tasks_from: apply-monaco
   vars:
@@ -51,12 +54,12 @@
     cmd: |
       sed -e "s/\$RELEASE_STAGE/$RELEASE_STAGE_STAGING/g" -e "s/\$DEMO_IDENTIFIER/$DEMO_IDENTIFIER/g" -e "s/\$RELEASE_PRODUCT/$RELEASE_PRODUCT/g" {{ role_path }}/files/monaco/delete-app.yaml > {{ role_path }}/files/monaco/delete-app-staging-optimized.yaml
       sed -e "s/\$RELEASE_STAGE/$RELEASE_STAGE_PROD/g" -e "s/\$DEMO_IDENTIFIER/$DEMO_IDENTIFIER/g" -e "s/\$RELEASE_PRODUCT/$RELEASE_PRODUCT/g" {{ role_path }}/files/monaco/delete-app.yaml > {{ role_path }}/files/monaco/delete-app-prod-optimized.yaml
-      MONACO_FEAT_AUTOMATION_RESOURCES=1 monacov2 delete --manifest {{ role_path }}/files/monaco/manifest.yaml --file {{ role_path }}/files/monaco/delete-app-prod-optimized.yaml --group production
-      MONACO_FEAT_AUTOMATION_RESOURCES=1 monacov2 delete --manifest {{ role_path }}/files/monaco/manifest.yaml --file {{ role_path }}/files/monaco/delete-app-staging-optimized.yaml --group staging
+      MONACO_FEAT_AUTOMATION_RESOURCES=1 monaco delete --manifest {{ role_path }}/files/monaco/manifest.yaml --file {{ role_path }}/files/monaco/delete-app-prod-optimized.yaml --group production
+      MONACO_FEAT_AUTOMATION_RESOURCES=1 monaco delete --manifest {{ role_path }}/files/monaco/manifest.yaml --file {{ role_path }}/files/monaco/delete-app-staging-optimized.yaml --group staging
       sleep 15 # wait for the deletion to be completed before the dependent configs are deleted
       sed -e "s/\$DEMO_IDENTIFIER/$DEMO_IDENTIFIER/g" {{ role_path }}/files/monaco/delete-infra.yaml > {{ role_path }}/files/monaco/delete-infra-optimized.yaml
-      MONACO_FEAT_AUTOMATION_RESOURCES=1 monacov2 delete --manifest {{ role_path }}/files/monaco/manifest.yaml --file {{ role_path }}/files/monaco/delete-infra-optimized.yaml --group production
-      MONACO_FEAT_AUTOMATION_RESOURCES=1 monacov2 delete --manifest {{ role_path }}/files/monaco/manifest.yaml --file {{ role_path }}/files/monaco/delete-infra-optimized.yaml --group staging
+      MONACO_FEAT_AUTOMATION_RESOURCES=1 monaco delete --manifest {{ role_path }}/files/monaco/manifest.yaml --file {{ role_path }}/files/monaco/delete-infra-optimized.yaml --group production
+      MONACO_FEAT_AUTOMATION_RESOURCES=1 monaco delete --manifest {{ role_path }}/files/monaco/manifest.yaml --file {{ role_path }}/files/monaco/delete-infra-optimized.yaml --group staging
   environment:
     DT_PLATFORM_TENANT_URL: "{{ extra_vars.dt_environment_url_gen3.rstrip('/') }}"
     DT_API_TOKEN: "{{ monaco_cleanup_api_token }}"
