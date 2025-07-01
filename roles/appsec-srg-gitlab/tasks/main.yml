@@ -29,12 +29,11 @@
 
 - include_role:
     name: monaco
-  vars:
-    monaco_version: "v2.17.4"
 
 - include_role:
     name: monaco-v2
     tasks_from: apply-monaco
+    monaco_version: "v2.17.4"
   vars:
     monaco_projects_root: "{{role_path_abs}}/files/monaco"  # monaco projects root folder path
     monaco_project: "infrastructure" # selection of projects or all projects under the root path if set empty
