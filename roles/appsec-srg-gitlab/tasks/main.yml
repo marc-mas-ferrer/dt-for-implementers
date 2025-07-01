@@ -27,7 +27,6 @@
 - set_fact:
     role_path_abs: "{{ role_path }}"
 
-
 - include_role:
     name: monaco-v2
     tasks_from: apply-monaco
