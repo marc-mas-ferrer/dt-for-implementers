@@ -47,11 +47,6 @@
       RELEASE_STAGE_PROD: "simplenode-gitlab-prod"
       RELEASE_PRODUCT: "simplenodeservice"
 
-- include_role:
-    name: monaco-v2
-    tasks_from: apply-monaco
-  vars:
-    monaco_version: "v2.17.4"
 
 - name: Monaco - Cleanup potential conflicting Monaco resources
   shell:
