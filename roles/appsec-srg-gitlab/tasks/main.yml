@@ -31,7 +31,7 @@
     name: monaco-v2
     tasks_from: apply-monaco
   vars:
-    monaco_version: "v2.31.1"
+    monaco_version: "2.23.1"
     monaco_projects_root: "{{role_path_abs}}/files/monaco"  # monaco projects root folder path
     monaco_project: "infrastructure" # selection of projects or all projects under the root path if set empty
     monaco_manifest_path: "{{role_path_abs}}/files/monaco/manifest.yaml"
