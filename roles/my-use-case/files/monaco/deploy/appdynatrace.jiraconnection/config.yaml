@@ -11,6 +11,7 @@ configs:
   type:
     settings:
       schema: app:dynatrace.jira:connection
+      schemaVersion: 0.0.1
       scope: environment
       permissions:
         allUsers: write
