@@ -41,7 +41,7 @@
       dt_app_version: "0.8.0" 
 
 - include_role:
-    name: microk8s
+    name: k3s
 
 - name: Pause for 2 Minute
   ansible.builtin.pause:
