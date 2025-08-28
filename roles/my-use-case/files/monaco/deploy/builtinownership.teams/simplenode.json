@@ -1,6 +1,9 @@
 {
   "name": "Simplenode Dev",
   "identifier": "simplenode",
+  "supplementaryIdentifiers": [
+    "simplenode-dev"
+  ],
   "responsibilities": {
     "development": true,
     "security": true,
