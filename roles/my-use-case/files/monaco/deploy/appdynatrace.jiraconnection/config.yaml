@@ -8,6 +8,9 @@ configs:
       jira_connection_token:
         type: environment
         name: JIRA_CONNECTION_TOKEN
+      jira_user_password:
+        type: environment
+        name: JIRA_USER_PASSWORD
   type:
     settings:
       schema: app:dynatrace.jira:connection
