@@ -19,8 +19,6 @@
     dt_oauth_client_secret: "{{ extra_vars.dt_oauth_client_secret }}"
     dt_oauth_account_urn: "{{ extra_vars.dt_oauth_account_urn }}"
   loop:
-    - dt_app_id: "dynatrace.redhat.ansible"
-      dt_app_version: "0.2.1"
     - dt_app_id: "dynatrace.davis.workflow.actions"
       dt_app_version: "1.1.4"
     - dt_app_id: "dynatrace.slack"
