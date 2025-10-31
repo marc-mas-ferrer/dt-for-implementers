@@ -9,7 +9,7 @@
     role_path_abs: "{{ role_path }}"
 
 - include_role:
-    name: dt-platform
+    name: dt-platform-local
     tasks_from: ensure-app
   vars:
     dt_app_id: "{{ item.dt_app_id }}"
