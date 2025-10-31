@@ -3,6 +3,5 @@
   "url": "https://perform-hot-labs-2025.atlassian.net",
   "type": "cloud-token",
   "user": "vulnerability-mgmt@outlook.com",
-  "password": "{{.jira_user_password}}",
   "token": "{{.jira_connection_token}}"
 }
