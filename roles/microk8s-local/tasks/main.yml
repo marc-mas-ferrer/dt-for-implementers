@@ -25,8 +25,9 @@
   become_user: root
   community.general.snap:
     name: microk8s
-    classic: yes
+    classic: true
     channel: "1.29/stable"
+    state: present
   register: microk8s
 
 # Install kubectl and helm via snap to not be dependent on microk8s' kube config
