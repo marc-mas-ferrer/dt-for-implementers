@@ -30,7 +30,8 @@
   #   classic: true
   #   channel: "1.29/stable"
   #   state: present
-  # register: microk8s
+  register: microk8s
+  changed_when: true
 
 # Install kubectl and helm via snap to not be dependent on microk8s' kube config
 - name: Install Kubectl and Helm
