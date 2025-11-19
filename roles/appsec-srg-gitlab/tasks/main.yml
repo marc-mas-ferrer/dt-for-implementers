@@ -55,6 +55,9 @@
 #     name: otel-collector
 #     tasks_from: source-endpoints
 
+# Install helm v3.17.3
+- include_tasks: install-helm.yml
+
 - include_role:
     name: gitlab-local
 
