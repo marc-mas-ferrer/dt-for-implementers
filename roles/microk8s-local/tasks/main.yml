@@ -23,12 +23,14 @@
 - name: Install microk8s
   become: true
   become_user: root
-  community.general.snap:
-    name: microk8s
-    classic: true
-    channel: "1.29/stable"
-    state: present
-  register: microk8s
+  ansible.builtin.command: >
+    snap install microk8s --classic --channel=1.29/stable
+  # community.general.snap:
+  #   name: microk8s
+  #   classic: true
+  #   channel: "1.29/stable"
+  #   state: present
+  # register: microk8s
 
 # Install kubectl and helm via snap to not be dependent on microk8s' kube config
 - name: Install Kubectl and Helm
