@@ -47,13 +47,13 @@
       RELEASE_PRODUCT: "simplenodeservice"
 
 
-- include_role:
-    name: otel-collector
+# - include_role:
+#     name: otel-collector
 
-- name: Source Otel Collector endpoint
-  include_role:
-    name: otel-collector
-    tasks_from: source-endpoints
+# - name: Source Otel Collector endpoint
+#   include_role:
+#     name: otel-collector
+#     tasks_from: source-endpoints
 
 - include_role:
     name: gitlab-local
