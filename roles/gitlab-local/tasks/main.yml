@@ -31,7 +31,7 @@
 
 - name: Install GitLab
   kubernetes.core.helm:
-    helm_binary: /usr/local/bin/helm3
+    binary_path: /usr/local/bin/helm3
     name: gitlab
     chart_ref: gitlab/gitlab
     chart_version: "{{ gitlab_helm_chart_version }}"
