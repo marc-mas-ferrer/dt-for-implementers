@@ -47,13 +47,13 @@
       RELEASE_PRODUCT: "simplenodeservice"
 
 
-# - include_role:
-#     name: otel-collector
+- include_role:
+    name: otel-collector
 
-# - name: Source Otel Collector endpoint
-#   include_role:
-#     name: otel-collector
-#     tasks_from: source-endpoints
+- name: Source Otel Collector endpoint
+  include_role:
+    name: otel-collector
+    tasks_from: source-endpoints
 
 # Install helm v3.17.3
 - include_tasks: install-helm.yml
@@ -63,39 +63,39 @@
 
 - name: Gitlab - Ensure Group
   include_role:
-    name: gitlab
+    name: gitlab-local
     tasks_from: ensure-group
   vars:
     gitlab_group_name: "{{ gitlab_demo_srg_group }}"
 
 - name: Gitlab - Ensure Default Group Vars
   include_role:
-    name: gitlab
+    name: gitlab-local
     tasks_from: ensure-default-group-vars
   vars:
     gitlab_group_name: "{{ gitlab_demo_srg_group }}"
 
 - name: Gitlab - Ensure Project
   include_role:
-    name: gitlab
+    name: gitlab-local
     tasks_from: ensure-project
   vars:
     gitlab_prj: "{{ gitlab_demo_srg_repo_name }}"
     gitlab_prj_namespace_id: "{{ gitlab_group_id }}"
 
 - include_role:
-    name: gitlab
+    name: gitlab-local
     tasks_from: source-endpoints-external
   when: gitlab_external_endpoint is not defined
 
 - include_role:
-    name: gitlab
+    name: gitlab-local
     tasks_from: source-secret
   when: gitlab_personal_access_token is not defined or gitlab_username is not defined or gitlab_password is not defined
 
 - name: Gitlab - Additional Environment Variables
   include_role:
-    name: gitlab
+    name: gitlab-local
     tasks_from: ensure-group-var
   vars:
     gitlab_var_key: "{{ item.key }}"
@@ -140,7 +140,7 @@
 
 - name: Source Gitlab endpoint
   include_role:
-    name: gitlab
+    name: gitlab-local
     tasks_from: source-endpoints
 
 - set_fact:
@@ -177,16 +177,16 @@
       - dest: otel-exporter.yml
         src: "{{ role_path_abs }}/files/otel-exporter.yml"
 
-- name: Gitlab - Ensure Project for OpenTelemetry Metrics
-  include_role:
-    name: gitlab
-    tasks_from: ensure-project
-  vars:
-    gitlab_prj: "{{ gitlab_demo_metrics_exporter_repo_name }}"
-    gitlab_prj_namespace_id: "{{ gitlab_group_id }}"
+# - name: Gitlab - Ensure Project for OpenTelemetry Metrics
+#   include_role:
+#     name: gitlab
+#     tasks_from: ensure-project
+#   vars:
+#     gitlab_prj: "{{ gitlab_demo_metrics_exporter_repo_name }}"
+#     gitlab_prj_namespace_id: "{{ gitlab_group_id }}"
 
-- set_fact:
-    dt_metrics_exporter_repo_src: "{{ role_path }}/files/metrics-exporter"
+# - set_fact:
+#     dt_metrics_exporter_repo_src: "{{ role_path }}/files/metrics-exporter"
 
 - name: Publish docs
   include_role:
