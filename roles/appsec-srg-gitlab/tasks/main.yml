@@ -59,43 +59,43 @@
 - include_tasks: install-helm.yml
 
 - include_role:
-    name: gitlab-local
+    name:  gitlab-local-latest
 
 - name: Gitlab - Ensure Group
   include_role:
-    name: gitlab-local
+    name: gitlab-local-latest
     tasks_from: ensure-group
   vars:
     gitlab_group_name: "{{ gitlab_demo_srg_group }}"
 
 - name: Gitlab - Ensure Default Group Vars
   include_role:
-    name: gitlab-local
+    name: gitlab-local-latest
     tasks_from: ensure-default-group-vars
   vars:
     gitlab_group_name: "{{ gitlab_demo_srg_group }}"
 
 - name: Gitlab - Ensure Project
   include_role:
-    name: gitlab-local
+    name: gitlab-local-latest
     tasks_from: ensure-project
   vars:
     gitlab_prj: "{{ gitlab_demo_srg_repo_name }}"
     gitlab_prj_namespace_id: "{{ gitlab_group_id }}"
 
 - include_role:
-    name: gitlab-local
+    name: gitlab-local-latest
     tasks_from: source-endpoints-external
   when: gitlab_external_endpoint is not defined
 
 - include_role:
-    name: gitlab-local
+    name: gitlab-local-latest
     tasks_from: source-secret
   when: gitlab_personal_access_token is not defined or gitlab_username is not defined or gitlab_password is not defined
 
 - name: Gitlab - Additional Environment Variables
   include_role:
-    name: gitlab-local
+    name: gitlab-local-latest
     tasks_from: ensure-group-var
   vars:
     gitlab_var_key: "{{ item.key }}"
@@ -140,7 +140,7 @@
 
 - name: Source Gitlab endpoint
   include_role:
-    name: gitlab-local
+    name: gitlab-local-latest
     tasks_from: source-endpoints
 
 - set_fact:
