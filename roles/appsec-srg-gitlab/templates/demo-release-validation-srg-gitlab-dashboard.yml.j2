@@ -2,6 +2,15 @@
 extRefs:
   Dynatrace:
     url: "{{ extra_vars.dt_environment_url_gen3 }}"
+  Gitlab:
+    url: "{{ ingress_protocol }}://gitlab.{{ ingress_domain }}"
+    creds:
+    - description: Username
+      type: text
+      value: "{{ gitlab_username }}"
+    - description: Password
+      type: password
+      value: "{{ gitlab_password }}"
 useCases:
   demo-release-validation-srg-gitlab:
     previews:
