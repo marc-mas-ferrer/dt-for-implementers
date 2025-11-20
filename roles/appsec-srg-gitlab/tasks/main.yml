@@ -202,6 +202,6 @@
     track_upstream: true
 
 - include_role:
-    name: dashboard
+    name: dashboard-local
   vars:
     include_dashboard_value_file: "{{ role_path_abs }}/templates/demo-release-validation-srg-gitlab-dashboard.yml.j2"
