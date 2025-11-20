@@ -15,6 +15,7 @@
 
 - name: Deploy MariaDB
   kubernetes.core.helm:
+    binary_path: /usr/local/bin/helm3
     name: unguard-mariadb
     chart_ref: bitnami/mariadb
     release_namespace: "{{ unguard_namespace }}"
@@ -27,6 +28,7 @@
 # Deploy Unguard
 - name: Deploy Unguard
   kubernetes.core.helm:
+    binary_path: /usr/local/bin/helm3
     name: unguard
     chart_ref: "{{ role_path }}/files/repos/unguard-dev/chart"
     release_namespace: "{{ unguard_namespace }}"

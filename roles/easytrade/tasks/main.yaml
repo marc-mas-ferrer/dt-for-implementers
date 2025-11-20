@@ -1,6 +1,7 @@
 # Deploy EasyTrade
 - name: Deploy EasyTrade
   kubernetes.core.helm:
+    binary_path: /usr/local/bin/helm3
     name: easytrade
     chart_ref: "{{ role_path }}/files/helm/easytrade"
     release_namespace: "{{ easytrade_namespace }}"
