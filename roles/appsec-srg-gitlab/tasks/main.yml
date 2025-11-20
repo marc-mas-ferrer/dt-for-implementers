@@ -132,10 +132,10 @@
         value: "{{ gitlab_external_endpoint }}",
       }
     - { key: "DEMO_IDENTIFIER", value: "{{ demo_identifier }}" }
-    - {
-        key: "OTEL_EXPORTER_OTEL_ENDPOINT",
-        value: "{{ otel_internal_endpoint }}",
-      }
+    # - {
+    #     key: "OTEL_EXPORTER_OTEL_ENDPOINT",
+    #     value: "{{ otel_internal_endpoint }}",
+    #   }
 
 
 - name: Source Gitlab endpoint
