@@ -185,8 +185,8 @@
 #     gitlab_prj: "{{ gitlab_demo_metrics_exporter_repo_name }}"
 #     gitlab_prj_namespace_id: "{{ gitlab_group_id }}"
 
-# - set_fact:
-#     dt_metrics_exporter_repo_src: "{{ role_path }}/files/metrics-exporter"
+- set_fact:
+    dt_metrics_exporter_repo_src: "{{ role_path }}/files/metrics-exporter"
 
 - name: Publish docs
   include_role:
