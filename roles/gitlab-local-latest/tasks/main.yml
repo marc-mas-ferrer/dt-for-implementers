@@ -130,9 +130,9 @@
     name: dashboard
     tasks_from: template-values-file
 
-# health check
-- include_role:
-    name: health-check
-    tasks_from: application-availability
-  vars:
-    application_domain: "{{ gitlab_domain }}"
+# # health check
+# - include_role:
+#     name: health-check
+#     tasks_from: application-availability
+#   vars:
+#     application_domain: "{{ gitlab_domain }}"
