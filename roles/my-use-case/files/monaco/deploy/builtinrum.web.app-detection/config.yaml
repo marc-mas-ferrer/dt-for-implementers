@@ -14,18 +14,3 @@ configs:
     settings:
       schema: builtin:rum.web.app-detection
       scope: environment
-- id: webgoat
-  config:
-    name: webgoat
-    parameters:
-      webgoat_id:
-        configId: webgoat
-        configType: application-web
-        property: id
-        type: reference
-    template: webgoat.json
-    skip: false
-  type:
-    settings:
-      schema: builtin:rum.web.app-detection
-      scope: environment

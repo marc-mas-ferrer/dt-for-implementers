@@ -6,11 +6,3 @@ configs:
     skip: false
   type:
     api: application-web
-
-- id: webgoat
-  config:
-    name: webgoat
-    template: webgoat.json
-    skip: false
-  type:
-    api: application-web
