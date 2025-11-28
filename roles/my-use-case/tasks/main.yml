@@ -138,10 +138,12 @@
 
 
 - include_role:
-    name: dt-operator
+    name: dt-operator-local
   vars:
+    dt_operator_manifest_url: "https://github.com/Dynatrace/dynatrace-operator/releases/latest/download/kubernetes.yaml"
+    dt_operator_csi_manifest_url: "https://github.com/Dynatrace/dynatrace-operator/releases/latest/download/kubernetes-csi.yaml"
     operator_mode: "cloudNativeFullStack"  
-    dt_operator_release: "latest"       # operator release should be linked with the right operator mode
+#    dt_operator_release: "latest"       # operator release should be linked with the right operator mode
     log_monitoring: "oneagent"
 
 - include_role:
