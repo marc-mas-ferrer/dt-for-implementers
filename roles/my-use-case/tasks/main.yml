@@ -1,59 +1,12 @@
 ---
-- include_role:
-    name: dt-access-token
-  vars:
-    access_token_var_name: logs_ingest_token
-    access_token_scope: ["logs.ingest"]
-
-- set_fact:
-    role_path_abs: "{{ role_path }}"
-
-# - include_role:
-#     name: dt-platform
-#     tasks_from: ensure-app
-#   vars:
-#     dt_app_id: "{{ item.dt_app_id }}"
-#     dt_environment_url_gen3: "{{ extra_vars.dt_environment_url_gen3 }}"
-#     dt_oauth_sso_endpoint: "{{ extra_vars.dt_oauth_sso_endpoint }}"
-#     dt_oauth_client_id: "{{ extra_vars.dt_oauth_client_id }}"
-#     dt_oauth_client_secret: "{{ extra_vars.dt_oauth_client_secret }}"
-#     dt_oauth_account_urn: "{{ extra_vars.dt_oauth_account_urn }}"
-#   loop:
-#     - dt_app_id: "dynatrace.davis.workflow.actions"
-#       dt_app_version: "1.1.4"
-#     - dt_app_id: "dynatrace.slack"
-#       dt_app_version: "1.3.1"
-#     - dt_app_id: "dynatrace.gitlab.connector"
-#       dt_app_version: "0.2.2"
-#     - dt_app_id: "dynatrace.jira"
-#       dt_app_version: "5.6.2"
-#     - dt_app_id: "dynatrace.redhat.ansible"
-#       dt_app_version: "0.3.2"
-#     - dt_app_id: "dynatrace.servicenow"
-#       dt_app_version: "0.9.1"
-#     - dt_app_id: "dynatrace.azure.connector"
-#       dt_app_version: "0.2.3"
-#     - dt_app_id: "dynatrace.msteams"
-#       dt_app_version: "1.0.1"
-#     - dt_app_id: "dynatrace.github.connector"
-#       dt_app_version: "0.8.0" 
 
 - include_role:
-    name: microk8s-local
-
-- name: Pause for 2 Minute
-  ansible.builtin.pause:
-    minutes: 2
-
-- include_role:
-    name: monaco-v2
-  vars:
-    monaco_version: "v2.23.1"
+    name: k3s
 
 - include_role:
     name: dt-access-token
   vars:
-    access_token_var_name: "monaco_cleanup_api_token"
+    access_token_var_name: "dt_access_token_name"
     access_token_scope:
       [
         "slo.read",
@@ -74,6 +27,40 @@
         "logs.ingest"
       ]
 
+- name: Configure bizevent ingest
+  uri:
+    url: "{{ dynatrace_tenant_url }}/api/v2/settings/objects"
+    method: POST
+    headers:
+      accept: "application/json"
+      Content-Type: "application/json; charset=utf-8"
+      Authorization: "Api-Token {{ dt_access_token_name }}"
+    body: |
+      [
+        {
+          "schemaId": "builtin:oneagent.features",
+          "scope": "environment",
+          "value": {
+            "enabled": true,
+            "instrumentation": true,
+            "key": "SENSOR_WEBSERVER_BIZEVENTS_HTTP_INCOMING"
+          }
+        }
+      ]
+    body_format: json
+    status_code: 200
+
+- set_fact:
+    role_path_abs: "{{ role_path }}"
+
+- name: Pause for 2 Minute
+  ansible.builtin.pause:
+    minutes: 2
+
+- include_role:
+    name: monaco-v2
+  vars:
+    monaco_version: "v2.23.1"
 
 - include_role:
     name: monaco-v2
@@ -105,37 +92,6 @@
       DT_OAUTH_CLIENT_SECRET: "{{ extra_vars.dt_oauth_client_secret }}"
       DT_OAUTH_SSO_ENDPOINT: "{{ extra_vars.dt_oauth_sso_endpoint }}"
 
-- name: Upload Dynatrace Workflows
-  block:
-    - include_tasks:
-        file: add-gen3-workflow.yml
-      vars:
-        path_to_workflow: "{{ role_path_abs }}/files/monaco/deploy/workflow/jira-issue-for-vulnerabilities.json"
-        workflow_name: "Jira-issue-for-vulnerabilities"
-      ignore_errors: yes
-    - set_fact:
-        lifecycle_workflow_id: "{{ workflow_id }}"
-  rescue:
-    - name: Rescue Message
-      debug:
-        msg: "Uploading Dynatrace Workflows failed but we keep going"
-    - set_fact:
-        lifecycle_workflow_id: "111"
-
-# Add gen3 Dashboards via API
-- include_tasks:
-    file: add-gen3-dashboard.yml
-  vars:
-    path_to_dashboard: "{{ role_path_abs }}/files/dashboards/release-monitoring.json"
-    dashboard_name: "Release Monitoring"
-
-
-- include_role:
-    name: dt-operator-version-detection
-  vars:
-    dt_operator_release: "v1.4.0"
-
-
 - include_role:
     name: appsec-srg-gitlab
 
@@ -144,18 +100,15 @@
     minutes: 5
 
 - include_role:
-    name: easytrade
+    name: dt-operator
+  vars:
+    operator_mode: "cloudNativeFullStack"  
+    dt_operator_release: "1.5.0"       # operator release should be linked with the right operator mode
+    log_monitoring: "oneagent"
 
 - include_role:
-    name: unguard
+    name: app-easytrade
 
 - include_role:
-    name: unguard-dev
+    name: app-unguard
 
-#- include_role:
-#    name: app-hipstershop
-#- include_role:
-#    name: app-easytravel
-
-#- include_role:
-#    name: app-falco

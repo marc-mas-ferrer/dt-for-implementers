@@ -1,5 +1,0 @@
-{
-  "matcher": "DOMAIN_CONTAINS",
-  "pattern": "webgoat",
-  "applicationId": "{{.webgoat_id}}"
-}
