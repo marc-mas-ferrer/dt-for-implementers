@@ -71,7 +71,7 @@
     monaco_manifest_path: "{{role_path_abs}}/files/monaco/manifest.yaml"
     monaco_environment:
       JIRA_CONNECTION_TOKEN: "{{ extra_vars.jira_connection_token }}"
-      DT_API_TOKEN: "{{ monaco_cleanup_api_token }}"
+      DT_API_TOKEN: "{{ dt_access_token_name }}"
       DT_PLATFORM_TENANT_URL: "{{ extra_vars.dt_environment_url_gen3 }}"
       DT_OAUTH_CLIENT_ID: "{{ extra_vars.dt_oauth_client_id }}"
       DT_OAUTH_CLIENT_SECRET: "{{ extra_vars.dt_oauth_client_secret }}"
@@ -86,7 +86,7 @@
     monaco_project: "deploy" # selection of projects or all projects under the root path if set empty
     monaco_manifest_path: "{{role_path_abs}}/files/monaco_platform/manifest.yaml"
     monaco_environment:
-      DT_API_TOKEN: "{{ monaco_cleanup_api_token }}"
+      DT_API_TOKEN: "{{ mdt_access_token_name }}"
       DT_PLATFORM_TENANT_URL: "{{ extra_vars.dt_environment_url_gen3 }}"
       DT_OAUTH_CLIENT_ID: "{{ extra_vars.dt_oauth_client_id }}"
       DT_OAUTH_CLIENT_SECRET: "{{ extra_vars.dt_oauth_client_secret }}"
