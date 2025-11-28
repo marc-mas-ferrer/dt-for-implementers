@@ -1,0 +1,10 @@
+configs:
+- id: bf6abc8d-1fc2-3cee-8c28-af0155252c78
+  config:
+    name: bf6abc8d-1fc2-3cee-8c28-af0155252c78
+    template: bf6abc8d-1fc2-3cee-8c28-af0155252c78.json
+    skip: false
+  type:
+    settings:
+      schema: builtin:ownership.config
+      scope: environment

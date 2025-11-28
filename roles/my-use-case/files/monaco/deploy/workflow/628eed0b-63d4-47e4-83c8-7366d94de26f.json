@@ -1,0 +1,29 @@
+{
+  "description": "",
+  "isPrivate": false,
+  "ownerType": "USER",
+  "taskDefaults": {},
+  "tasks": {
+    "execute_account_enumeration": {
+      "action": "dynatrace.automations:run-javascript",
+      "description": "Build a custom task running js Code",
+      "input": {
+        "script": "// optional import of sdk modules\nimport { execution } from '@dynatrace-sdk/automation-utils';\n\nexport default async function ({ execution_id }) {\n\n  // Configuration for the account enumeration simulation\n  const endpointBase = 'http://easytrade.<your-domain>/login/api/Accounts/GetAccountByUsername/'; // Base URL of the endpoint\n  const usernames = [\n    'john_doe', 'mary.jane', 'susan_smith', 'michael.brown', 'james_norton',\n    'david.jones', 'lisa.wilson', 'robert_miller', 'karen_davis', 'jason.taylor',\n    'patricia_moore', 'matthew_jackson', 'jennifer.white', 'daniel.harris', 'linda_clark',\n    'thomas.evans', 'elizabeth_edwards', 'josh_wilson', 'olivia_collins', 'mark.stewart',\n    'amber_sanders', 'paul.hughes', 'rachel.price', 'sean.morgan', 'eric_reed',\n    'anna.cox', 'george_ward', 'michelle_richardson', 'kyle_bennett', 'emma_wood'\n  ]; // List of realistic usernames\n\n  const delayBetweenRequests = 100; // Delay in milliseconds between each request\n  \n  // Function to simulate a single request for account existence check\n  async function checkAccountExistence(username) {\n    try {\n      const response = await fetch(endpointBase + encodeURIComponent(username), {\n        method: 'GET'\n      });\n  \n    } catch (error) {\n      console.error('Error during request:', error);\n    }\n  }\n  \n  // Function to simulate account enumeration\n  async function simulateAccountEnumeration() {\n    for (let i = 0; i \u003c usernames.length; i++) {\n      // console.log(`Attempt ${i + 1} of ${usernames.length} for username: ${usernames[i]}`);\n      console.log(\"Running...\");\n      await checkAccountExistence(usernames[i]);\n      \n      // Wait for a short delay between requests\n      await new Promise(resolve =\u003e setTimeout(resolve, delayBetweenRequests));\n    }\n  }\n  \n  // Start the account enumeration simulation\n  console.log('Account enumeration simulation start!');\n  await simulateAccountEnumeration();\n  console.log('Account enumeration simulation complete.');\n\n  return {};\n}"
+      },
+      "name": "execute_account_enumeration",
+      "position": {
+        "x": 0,
+        "y": 1
+      },
+      "predecessors": []
+    }
+  },
+  "throttle": {
+    "isLimitHit": false,
+    "limitEvents": []
+  },
+  "title": "{{.name}}",
+  "trigger": {},
+  "triggerType": "Manual",
+  "usages": [],
+}
