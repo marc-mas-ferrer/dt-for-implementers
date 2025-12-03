@@ -111,7 +111,7 @@
     body_format: json
     status_code: 200
 
- - name: Configure app detection rules
+- name: Configure app detection rules
   uri:
     url: "{{ dynatrace_tenant_url }}/api/v2/settings/objects"
     method: POST
