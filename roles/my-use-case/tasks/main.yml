@@ -218,7 +218,7 @@
         "xhrActionKeyPerformanceMetric": "VISUALLY_COMPLETE"
       }
     body_format: json
-    status_code: 200
+    status_code: [200, 201]
   register: unguard_webapp_result
 
 - debug:
@@ -246,7 +246,7 @@
         }
       ]
     body_format: json
-    status_code: 200   
+    status_code: [200, 201]   
 
 - name: Configure management zone
   uri:
@@ -422,7 +422,7 @@
         }
       ]
     body_format: json
-    status_code: 200
+    status_code: [200, 201]
 
 - include_role:
     name: dt-operator
