@@ -223,7 +223,10 @@
 
 - debug:
     msg: "Created app ID: {{ unguard_webapp_result.json.id }}"  
-
+  
+- name: Pause for 1 Minute
+  ansible.builtin.pause:
+    minutes: 1
 
 - name: Configure app detection rules
   uri:
@@ -247,6 +250,10 @@
       ]
     body_format: json
     status_code: [200, 201]   
+
+- name: Pause for 1 Minute
+  ansible.builtin.pause:
+    minutes: 1   
 
 - name: Configure management zone
   uri:
@@ -434,6 +441,10 @@
     operator_mode: "cloudNativeFullStack"  
     log_monitoring: "oneagent"
 
+- name: Pause for 1 Minute
+  ansible.builtin.pause:
+    minutes: 1
+
 - include_role:
     name: app-easytrade
 
@@ -441,6 +452,10 @@
     name: app-unguard
   vars:
     ingress_protocol: "http"
+
+- name: Pause for 1 Minute
+  ansible.builtin.pause:
+    minutes: 1
 
 - include_role:
     name: dashboard
