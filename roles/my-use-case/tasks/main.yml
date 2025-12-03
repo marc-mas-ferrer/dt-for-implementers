@@ -53,7 +53,6 @@
             "toleratedFallbackThreshold": 3000,
             "toleratedThreshold": 3000
           },
-          "identifier": "APPLICATION-F80C45F85F795789",
           "loadActionApdexSettings": {
             "frustratingFallbackThreshold": 12000,
             "frustratingThreshold": 12000,
@@ -220,8 +219,13 @@
           "xhrActionKeyPerformanceMetric": "VISUALLY_COMPLETE"
         }
       ]
+
     body_format: json
     status_code: 200
+  register: unguard_webapp_result
+
+- debug:
+    msg: "Created app ID: {{ unguard_webapp_result.json.id }}"  
 
 
 - name: Configure app detection rules
@@ -240,7 +244,7 @@
           "value": {
             "matcher": "DOMAIN_CONTAINS",
             "pattern": "unguard",
-            "applicationId": "APPLICATION-F80C45F85F795789"
+            "applicationId": "{{ unguard_webapp_result.json.id }}"
           }
         }
       ]
