@@ -437,9 +437,9 @@
 
 - include_role:
     name: dt-operator
-  vars:
-    operator_mode: "cloudNativeFullStack"  
-    log_monitoring: "oneagent"
+#  vars:
+#    operator_mode: "cloudNativeFullStack"  
+#    log_monitoring: "oneagent"
 
 - name: Pause for 1 Minute
   ansible.builtin.pause:
