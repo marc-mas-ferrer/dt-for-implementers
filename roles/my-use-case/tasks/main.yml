@@ -4,6 +4,7 @@
   vars:
     access_token_var_name: logs_ingest_token
     access_token_scope: ["logs.ingest"]
+  when: false
 
 - set_fact:
     role_path_abs: "{{ role_path }}"
@@ -14,11 +15,13 @@
 - name: Pause for 2 Minute
   ansible.builtin.pause:
     minutes: 2
+  when: false
 
 - include_role:
     name: monaco-v2
   vars:
     monaco_version: "v2.23.1"
+    when: false
 
 - include_role:
     name: dt-access-token
@@ -43,6 +46,7 @@
         "openTelemetryTrace.ingest",
         "logs.ingest"
       ]
+    when: false
 
 
 
@@ -61,6 +65,7 @@
       DT_OAUTH_CLIENT_SECRET: "{{ extra_vars.dt_oauth_client_secret }}"
       DT_OAUTH_SSO_ENDPOINT: "{{ extra_vars.dt_oauth_sso_endpoint }}"
       INGRESS_DOMAIN: "{{ ingress_domain }}"
+    when: false
 
 - include_role:
     name: monaco-v2
@@ -75,12 +80,13 @@
       DT_OAUTH_CLIENT_ID: "{{ extra_vars.dt_oauth_client_id }}"
       DT_OAUTH_CLIENT_SECRET: "{{ extra_vars.dt_oauth_client_secret }}"
       DT_OAUTH_SSO_ENDPOINT: "{{ extra_vars.dt_oauth_sso_endpoint }}"
+    when: false
 
 - include_role:
     name: dt-access-token
   vars:
     access_token_var_name: "dt_access_token_name"
-    access_token_scope: ["settings.read", "settings.write"]
+    access_token_scope: ["settings.read", "settings.write", "WriteConfig"]
 
 - name: Configure bizevent ingest
   uri:
@@ -105,37 +111,204 @@
     body_format: json
     status_code: 200
 
-#- name: Upload Dynatrace Workflows
-#  block:
- #   - include_tasks:
-  #      file: add-gen3-workflow.yml
-   #   vars:
-    #    path_to_workflow: "{{ role_path_abs }}/files/monaco/deploy/workflow/jira-issue-for-vulnerabilities.json"
-     #   workflow_name: "Jira-issue-for-vulnerabilities"
-#      ignore_errors: yes
- #   - set_fact:
- #       lifecycle_workflow_id: "{{ workflow_id }}"
-#  rescue:
- #   - name: Rescue Message
- #     debug:
-#        msg: "Uploading Dynatrace Workflows failed but we keep going"
-#    - set_fact:
-#        lifecycle_workflow_id: "111"
+ - name: Configure app detection rules
+  uri:
+    url: "{{ dynatrace_tenant_url }}/api/v2/settings/objects"
+    method: POST
+    headers:
+      accept: "application/json"
+      Content-Type: "application/json; charset=utf-8"
+      Authorization: "Api-Token {{ dt_access_token_name }}"
+    body: |
+      [
+        {
+          "schemaId": "builtin:rum.web.app-detection",
+          "scope": "environment",
+          "value": {
+            "matcher": "DOMAIN_CONTAINS",
+            "pattern": "unguard",
+            "applicationId": "APPLICATION-F80C45F85F795789"
+          }
+        }
+      ]
+    body_format: json
+    status_code: 200   
 
-# Add gen3 Dashboards via API
-#- include_tasks:
-#    file: add-gen3-dashboard.yml
-#  vars:
-#    path_to_dashboard: "{{ role_path_abs }}/files/dashboards/release-monitoring.json"
-#    dashboard_name: "Release Monitoring"
-
-#- include_role:
- #   name: appsec-srg-gitlab
-
-#- name: Pause for 5 Minute
-#  ansible.builtin.pause:
-#    minutes: 5
-
+- name: Configure management zone
+  uri:
+    url: "{{ dynatrace_tenant_url }}/api/v2/settings/objects"
+    method: POST
+    headers:
+      accept: "application/json"
+      Content-Type: "application/json; charset=utf-8"
+      Authorization: "Api-Token {{ dt_access_token_name }}"
+    body: |
+      [
+        {
+          "name": "unguard",
+          "rules": [
+            {
+              "enabled": true,
+              "type": "ME",
+              "attributeRule": {
+                "entityType": "PROCESS_GROUP",
+                "conditions": [
+                  {
+                    "key": "PROCESS_GROUP_PREDEFINED_METADATA",
+                    "dynamicKey": "KUBERNETES_NAMESPACE",
+                    "operator": "EQUALS",
+                    "stringValue": "unguard",
+                    "caseSensitive": true
+                  }
+                ],
+                "pgToHostPropagation": true,
+                "pgToServicePropagation": true
+              }
+            },
+            {
+              "enabled": true,
+              "type": "ME",
+              "attributeRule": {
+                "entityType": "CLOUD_APPLICATION_NAMESPACE",
+                "conditions": [
+                  {
+                    "key": "CLOUD_APPLICATION_NAMESPACE_NAME",
+                    "operator": "EQUALS",
+                    "stringValue": "unguard",
+                    "caseSensitive": true
+                  }
+                ]
+              }
+            },
+            {
+              "enabled": true,
+              "type": "ME",
+              "attributeRule": {
+                "entityType": "SERVICE",
+                "conditions": [
+                  {
+                    "key": "PROCESS_GROUP_PREDEFINED_METADATA",
+                    "dynamicKey": "KUBERNETES_NAMESPACE",
+                    "operator": "EQUALS",
+                    "stringValue": "unguard",
+                    "caseSensitive": true
+                  }
+                ],
+                "serviceToHostPropagation": false,
+                "serviceToPGPropagation": false
+              }
+            },
+            {
+              "enabled": true,
+              "type": "ME",
+              "attributeRule": {
+                "entityType": "CLOUD_APPLICATION",
+                "conditions": [
+                  {
+                    "key": "CLOUD_APPLICATION_NAMESPACE_NAME",
+                    "operator": "EQUALS",
+                    "stringValue": "unguard",
+                    "caseSensitive": true
+                  }
+                ]
+              }
+            },
+            {
+              "enabled": true,
+              "type": "ME",
+              "attributeRule": {
+                "entityType": "KUBERNETES_CLUSTER",
+                "conditions": [
+                  {
+                    "key": "KUBERNETES_CLUSTER_NAME",
+                    "operator": "EQUALS",
+                    "stringValue": "unguard",
+                    "caseSensitive": true
+                  }
+                ]
+              }
+            },
+            {
+              "enabled": true,
+              "type": "ME",
+              "attributeRule": {
+                "entityType": "SERVICE",
+                "conditions": [
+                  {
+                    "key": "SERVICE_DATABASE_HOST_NAME",
+                    "operator": "BEGINS_WITH",
+                    "stringValue": "unguard-mariadb",
+                    "caseSensitive": true
+                  }
+                ],
+                "serviceToHostPropagation": true,
+                "serviceToPGPropagation": true
+              }
+            },
+            {
+              "enabled": true,
+              "type": "ME",
+              "attributeRule": {
+                "entityType": "HOST",
+                "conditions": [
+                  {
+                    "key": "KUBERNETES_CLUSTER_NAME",
+                    "operator": "EQUALS",
+                    "stringValue": "unguard",
+                    "caseSensitive": true
+                  }
+                ],
+                "hostToPGPropagation": false
+              }
+            },
+            {
+              "enabled": true,
+              "type": "ME",
+              "attributeRule": {
+                "entityType": "BROWSER_MONITOR",
+                "conditions": [
+                  {
+                    "key": "BROWSER_MONITOR_TAGS",
+                    "operator": "TAG_KEY_EQUALS",
+                    "tag": "unguard"
+                  }
+                ]
+              }
+            },
+            {
+              "enabled": true,
+              "type": "ME",
+              "attributeRule": {
+                "entityType": "HTTP_MONITOR",
+                "conditions": [
+                  {
+                    "key": "HTTP_MONITOR_TAGS",
+                    "operator": "TAG_KEY_EQUALS",
+                    "tag": "unguard"
+                  }
+                ]
+              }
+            },
+            {
+              "enabled": true,
+              "type": "ME",
+              "attributeRule": {
+                "entityType": "WEB_APPLICATION",
+                "conditions": [
+                  {
+                    "key": "WEB_APPLICATION_NAME",
+                    "operator": "EQUALS",
+                    "stringValue": "unguard",
+                    "caseSensitive": true
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    body_format: json
+    status_code: 200
 
 - include_role:
     name: dt-operator

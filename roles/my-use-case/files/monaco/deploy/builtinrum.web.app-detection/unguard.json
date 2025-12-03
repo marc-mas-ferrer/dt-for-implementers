@@ -1,5 +1,5 @@
 {
   "matcher": "DOMAIN_CONTAINS",
   "pattern": "unguard",
-  "applicationId": "{{.unguard_id}}"
+  "applicationId": "APPLICATION-F80C45F85F795789"
 }
