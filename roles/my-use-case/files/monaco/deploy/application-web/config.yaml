@@ -1,8 +1,0 @@
-configs:
-- id: unguard
-  config:
-    name: unguard
-    template: unguard.json
-    skip: false
-  type:
-    api: application-web

@@ -1,5 +1,0 @@
-- name: "Delete Dynatrace namespace"
-  shell: 
-    cmd: "/snap/bin/microk8s.kubectl delete ns {{ dt_operator_namespace }}"
-  ignore_errors: yes
-  when: feature_oneagent

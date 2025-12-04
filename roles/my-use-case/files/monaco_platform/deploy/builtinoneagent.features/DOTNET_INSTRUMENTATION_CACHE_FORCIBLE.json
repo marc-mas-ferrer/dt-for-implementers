@@ -1,5 +1,0 @@
-{
-  "enabled": true,
-  "forcible": false,
-  "key": "DOTNET_INSTRUMENTATION_CACHE_FORCIBLE"
-}
