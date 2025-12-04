@@ -1,6 +1,4 @@
 ---
-- set_fact:
-    role_path_abs: "{{ role_path }}"
 
 - include_role:
     name: k3s
@@ -11,6 +9,9 @@
     access_token_var_name: "dt_access_token_name"
     access_token_scope: ["settings.read", "settings.write", "WriteConfig"]
 
+# --------------------------------------------------------------------
+# BizEvent ingestion OneAgent feature
+# --------------------------------------------------------------------
 - name: Configure bizevent ingest
   uri:
     url: "{{ dynatrace_tenant_url }}/api/v2/settings/objects"
@@ -19,21 +20,13 @@
       accept: "application/json"
       Content-Type: "application/json; charset=utf-8"
       Authorization: "Api-Token {{ dt_access_token_name }}"
-    body: |
-      [
-        {
-          "schemaId": "builtin:oneagent.features",
-          "scope": "environment",
-          "value": {
-            "enabled": true,
-            "instrumentation": true,
-            "key": "SENSOR_WEBSERVER_BIZEVENTS_HTTP_INCOMING"
-          }
-        }
-      ]
+    body: "{{ lookup('file', role_path + '/files/bizevent_ingest.json') }}"
     body_format: json
     status_code: 200
 
+# --------------------------------------------------------------------
+# Creation of Unguard web application
+# --------------------------------------------------------------------
 - name: Create unguard web application
   uri:
     url: "{{ dynatrace_tenant_url }}/api/config/v1/applications/web"
@@ -42,181 +35,7 @@
       accept: "application/json"
       Content-Type: "application/json; charset=utf-8"
       Authorization: "Api-Token {{ dt_access_token_name }}"
-    body: |
-      {
-        "conversionGoals": [],
-        "costControlUserSessionPercentage": 100,
-        "customActionApdexSettings": {
-          "frustratingFallbackThreshold": 12000,
-          "frustratingThreshold": 12000,
-          "toleratedFallbackThreshold": 3000,
-          "toleratedThreshold": 3000
-        },
-        "loadActionApdexSettings": {
-          "frustratingFallbackThreshold": 12000,
-          "frustratingThreshold": 12000,
-          "toleratedFallbackThreshold": 3000,
-          "toleratedThreshold": 3000
-        },
-        "loadActionKeyPerformanceMetric": "VISUALLY_COMPLETE",
-        "metaDataCaptureSettings": [
-          {
-            "capturingName": "#dropdownUser",
-            "name": "VisitTag1",
-            "publicMetadata": false,
-            "type": "CSS_SELECTOR",
-            "uniqueId": 1,
-            "useLastValue": false
-          }
-        ],
-        "monitoringSettings": {
-          "addCrossOriginAnonymousAttribute": true,
-          "advancedJavaScriptTagSettings": {
-            "additionalEventHandlers": {
-              "blurEventHandler": false,
-              "changeEventHandler": false,
-              "clickEventHandler": false,
-              "maxDomNodesToInstrument": 5000,
-              "mouseupEventHandler": false,
-              "toStringMethod": false,
-              "userMouseupEventForClicks": false
-            },
-            "eventWrapperSettings": {
-              "blur": false,
-              "change": false,
-              "click": false,
-              "mouseUp": false,
-              "touchEnd": false,
-              "touchStart": false
-            },
-            "globalEventCaptureSettings": {
-              "additionalEventCapturedAsUserInput": "",
-              "change": true,
-              "click": true,
-              "doubleClick": true,
-              "keyDown": true,
-              "keyUp": true,
-              "mouseDown": true,
-              "mouseUp": true,
-              "scroll": true,
-              "touchEnd": true,
-              "touchStart": true
-            },
-            "instrumentUnsupportedAjaxFrameworks": false,
-            "maxActionNameLength": 100,
-            "maxErrorsToCapture": 10,
-            "proxyWrapperEnabled": false,
-            "specialCharactersToEscape": "",
-            "syncBeaconFirefox": false,
-            "syncBeaconInternetExplorer": false,
-            "userActionNameAttribute": null
-          },
-          "browserRestrictionSettings": {
-            "browserRestrictions": [],
-            "mode": "EXCLUDE"
-          },
-          "cacheControlHeaderOptimizations": true,
-          "contentCapture": {
-            "javaScriptErrors": true,
-            "resourceTimingSettings": {
-              "nonW3cResourceTimings": false,
-              "nonW3cResourceTimingsInstrumentationDelay": 50,
-              "resourceTimingCaptureType": null,
-              "resourceTimingsDomainLimit": null,
-              "w3cResourceTimings": true
-            },
-            "timeoutSettings": {
-              "temporaryActionLimit": 0,
-              "temporaryActionTotalTimeout": 100,
-              "timedActionSupport": false
-            },
-            "visuallyComplete2Settings": {
-              "excludeUrlRegex": "",
-              "ignoredMutationsList": "",
-              "inactivityTimeout": 1000,
-              "mutationTimeout": 50,
-              "threshold": 50
-            },
-            "visuallyCompleteAndSpeedIndex": true
-          },
-          "cookiePlacementDomain": "",
-          "correlationHeaderInclusionRegex": "",
-          "customConfigurationProperties": "",
-          "excludeXhrRegex": "",
-          "fetchRequests": false,
-          "injectionMode": "JAVASCRIPT_TAG",
-          "instrumentedWebServer": null,
-          "ipAddressRestrictionSettings": {
-            "ipAddressRestrictions": [],
-            "mode": "EXCLUDE"
-          },
-          "javaScriptFrameworkSupport": {
-            "activeXObject": false,
-            "angular": false,
-            "dojo": false,
-            "extJS": false,
-            "icefaces": false,
-            "jQuery": true,
-            "mooTools": false,
-            "prototype": false
-          },
-          "libraryFileLocation": "/ui",
-          "monitoringDataPath": "/ui",
-          "scriptTagCacheDurationInHours": 1,
-          "secureCookieAttribute": false,
-          "serverRequestPathId": "",
-          "xmlHttpRequest": false
-        },
-        "name": "unguard",
-        "realUserMonitoringEnabled": true,
-        "sessionReplayConfig": {
-          "costControlPercentage": 100,
-          "cssResourceCapturingExclusionRules": [],
-          "enableCssResourceCapturing": true,
-          "enabled": true
-        },
-        "type": "AUTO_INJECTED",
-        "userActionAndSessionProperties": [],
-        "userActionNamingSettings": {
-          "customActionNamingRules": [],
-          "ignoreCase": true,
-          "loadActionNamingRules": [],
-          "placeholders": [],
-          "queryParameterCleanups": [
-            "cfid",
-            "phpsessid",
-            "__sid",
-            "cftoken",
-            "sid"
-          ],
-          "splitUserActionsByDomain": true,
-          "useFirstDetectedLoadAction": false,
-          "xhrActionNamingRules": []
-        },
-        "userTags": [
-          {
-            "ignoreCase": true,
-            "metadataId": 1,
-            "uniqueId": 1
-          }
-        ],
-        "waterfallSettings": {
-          "resourceBrowserCachingThreshold": 50,
-          "resourcesThreshold": 100000,
-          "slowCdnResourcesThreshold": 200000,
-          "slowFirstPartyResourcesThreshold": 200000,
-          "slowThirdPartyResourcesThreshold": 200000,
-          "speedIndexVisuallyCompleteRatioThreshold": 50,
-          "uncompressedResourcesThreshold": 860
-        },
-        "xhrActionApdexSettings": {
-          "frustratingFallbackThreshold": 12000,
-          "frustratingThreshold": 12000,
-          "toleratedFallbackThreshold": 3000,
-          "toleratedThreshold": 3000
-        },
-        "xhrActionKeyPerformanceMetric": "VISUALLY_COMPLETE"
-      }
+    body: "{{ lookup('file', role_path + '/files/unguard_webapp.json.j2') }}"
     body_format: json
     status_code: [200, 201]
   register: unguard_webapp_result
@@ -228,6 +47,9 @@
   ansible.builtin.pause:
     minutes: 1
 
+# --------------------------------------------------------------------
+# Configuration of of Unguard web application detection rule
+# --------------------------------------------------------------------
 - name: Configure app detection rules
   uri:
     url: "{{ dynatrace_tenant_url }}/api/v2/settings/objects"
@@ -236,18 +58,7 @@
       accept: "application/json"
       Content-Type: "application/json; charset=utf-8"
       Authorization: "Api-Token {{ dt_access_token_name }}"
-    body: |
-      [
-        {
-          "schemaId": "builtin:rum.web.app-detection",
-          "scope": "environment",
-          "value": {
-            "matcher": "DOMAIN_CONTAINS",
-            "pattern": "unguard",
-            "applicationId": "{{ unguard_webapp_result.json.id }}"
-          }
-        }
-      ]
+    body: "{{ lookup('template', role_path + '/files/app_detection.json.j2') }}"
     body_format: json
     status_code: [200, 201]   
 
@@ -255,6 +66,9 @@
   ansible.builtin.pause:
     minutes: 1   
 
+# --------------------------------------------------------------------
+# Creation of Unguard management zone
+# --------------------------------------------------------------------
 - name: Configure management zone
   uri:
     url: "{{ dynatrace_tenant_url }}/api/v2/settings/objects"
@@ -263,175 +77,7 @@
       accept: "application/json"
       Content-Type: "application/json; charset=utf-8"
       Authorization: "Api-Token {{ dt_access_token_name }}"
-    body: |
-      [
-        {
-            "schemaId":"builtin:management-zones",
-            "scope":"environment",
-            "value":{
-              "name":"unguard",
-              "rules":[
-                  {
-                    "enabled":true,
-                    "type":"ME",
-                    "attributeRule":{
-                        "entityType":"PROCESS_GROUP",
-                        "conditions":[
-                          {
-                              "key":"PROCESS_GROUP_PREDEFINED_METADATA",
-                              "dynamicKey":"KUBERNETES_NAMESPACE",
-                              "operator":"EQUALS",
-                              "stringValue":"unguard",
-                              "caseSensitive":true
-                          }
-                        ],
-                        "pgToHostPropagation":true,
-                        "pgToServicePropagation":true
-                    }
-                  },
-                  {
-                    "enabled":true,
-                    "type":"ME",
-                    "attributeRule":{
-                        "entityType":"CLOUD_APPLICATION_NAMESPACE",
-                        "conditions":[
-                          {
-                              "key":"CLOUD_APPLICATION_NAMESPACE_NAME",
-                              "operator":"EQUALS",
-                              "stringValue":"unguard",
-                              "caseSensitive":true
-                          }
-                        ]
-                    }
-                  },
-                  {
-                    "enabled":true,
-                    "type":"ME",
-                    "attributeRule":{
-                        "entityType":"SERVICE",
-                        "conditions":[
-                          {
-                              "key":"PROCESS_GROUP_PREDEFINED_METADATA",
-                              "dynamicKey":"KUBERNETES_NAMESPACE",
-                              "operator":"EQUALS",
-                              "stringValue":"unguard",
-                              "caseSensitive":true
-                          }
-                        ],
-                        "serviceToHostPropagation":false,
-                        "serviceToPGPropagation":false
-                    }
-                  },
-                  {
-                    "enabled":true,
-                    "type":"ME",
-                    "attributeRule":{
-                        "entityType":"CLOUD_APPLICATION",
-                        "conditions":[
-                          {
-                              "key":"CLOUD_APPLICATION_NAMESPACE_NAME",
-                              "operator":"EQUALS",
-                              "stringValue":"unguard",
-                              "caseSensitive":true
-                          }
-                        ]
-                    }
-                  },
-                  {
-                    "enabled":true,
-                    "type":"ME",
-                    "attributeRule":{
-                        "entityType":"KUBERNETES_CLUSTER",
-                        "conditions":[
-                          {
-                              "key":"KUBERNETES_CLUSTER_NAME",
-                              "operator":"EQUALS",
-                              "stringValue":"unguard",
-                              "caseSensitive":true
-                          }
-                        ]
-                    }
-                  },
-                  {
-                    "enabled":true,
-                    "type":"ME",
-                    "attributeRule":{
-                        "entityType":"SERVICE",
-                        "conditions":[
-                          {
-                              "key":"SERVICE_DATABASE_HOST_NAME",
-                              "operator":"BEGINS_WITH",
-                              "stringValue":"unguard-mariadb",
-                              "caseSensitive":true
-                          }
-                        ],
-                        "serviceToHostPropagation":true,
-                        "serviceToPGPropagation":true
-                    }
-                  },
-                  {
-                    "enabled":true,
-                    "type":"ME",
-                    "attributeRule":{
-                        "entityType":"HOST",
-                        "conditions":[
-                          {
-                              "key":"KUBERNETES_CLUSTER_NAME",
-                              "operator":"EQUALS",
-                              "stringValue":"unguard",
-                              "caseSensitive":true
-                          }
-                        ],
-                        "hostToPGPropagation":false
-                    }
-                  },
-                  {
-                    "enabled":true,
-                    "type":"ME",
-                    "attributeRule":{
-                        "entityType":"BROWSER_MONITOR",
-                        "conditions":[
-                          {
-                              "key":"BROWSER_MONITOR_TAGS",
-                              "operator":"TAG_KEY_EQUALS",
-                              "tag":"unguard"
-                          }
-                        ]
-                    }
-                  },
-                  {
-                    "enabled":true,
-                    "type":"ME",
-                    "attributeRule":{
-                        "entityType":"HTTP_MONITOR",
-                        "conditions":[
-                          {
-                              "key":"HTTP_MONITOR_TAGS",
-                              "operator":"TAG_KEY_EQUALS",
-                              "tag":"unguard"
-                          }
-                        ]
-                    }
-                  },
-                  {
-                    "enabled":true,
-                    "type":"ME",
-                    "attributeRule":{
-                        "entityType":"WEB_APPLICATION",
-                        "conditions":[
-                          {
-                              "key":"WEB_APPLICATION_NAME",
-                              "operator":"EQUALS",
-                              "stringValue":"unguard",
-                              "caseSensitive":true
-                          }
-                        ]
-                    }
-                  }
-              ]
-            }
-        }
-      ]
+    body: "{{ lookup('file', role_path + '/files/mz_unguard.json') }}"
     body_format: json
     status_code: [200, 201]
 
