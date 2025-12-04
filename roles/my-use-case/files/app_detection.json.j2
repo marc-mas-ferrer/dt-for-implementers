@@ -1,9 +1,11 @@
-{
-  "schemaId": "builtin:rum.web.app-detection",
-  "scope": "environment",
-  "value": {
-    "matcher": "DOMAIN_CONTAINS",
-    "pattern": "unguard",
-    "applicationId": "{{ unguard_webapp_result.json.id }}"
-  }
-}
+[
+    {
+    "schemaId": "builtin:rum.web.app-detection",
+    "scope": "environment",
+    "value": {
+        "matcher": "DOMAIN_CONTAINS",
+        "pattern": "unguard",
+        "applicationId": "{{ unguard_webapp_result.json.id }}"
+    }
+    }
+]
