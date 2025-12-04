@@ -1,7 +1,7 @@
 ---
 
-- name: Start long-running Python script
-  shell: "nohup python3 {{ role_path }}/files/log_generator.py > /var/log/log_generator.log 2>&1 &"
+- name: Start log generator script
+  shell: "nohup python3 {{ role_path }}/files/log_generator.py > /tmp/log_generator.log 2>&1 &"
 
 - include_role:
     name: k3s
