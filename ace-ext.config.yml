@@ -1,7 +1,0 @@
----
-# Default overrides
-dashboard_password: supersecret
-apply_monaco_easytravel: true
-apply_monaco_easytrade: true
-apply_monaco_hipstershop: true
-apply_monaco_unguard: true
