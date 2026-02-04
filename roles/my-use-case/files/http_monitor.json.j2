@@ -1,0 +1,68 @@
+{
+   "entityId":"HTTP_CHECK-6B38F13633D8614E",
+   "name":"Enable problem",
+   "frequencyMin":5,
+   "enabled":true,
+   "type":"HTTP",
+   "createdFrom":"API",
+   "script":{
+      "version":"1.0",
+      "requests":[
+         {
+            "description":"Enable",
+            "url":"https://easytrade.{{ ingress_domain }}/feature-flag-service/v1/flags/credit_card_meltdown",
+            "method":"PUT",
+            "requestBody":"{\"enabled\": true}",
+            "configuration":{
+               "requestHeaders":[
+                  {
+                     "name":"Content-Type",
+                     "value":"application/json"
+                  }
+               ],
+               "acceptAnyCertificate":false,
+               "followRedirects":true,
+               "shouldNotPersistSensitiveData":false
+            }
+         }
+      ]
+   },
+   "locations":[
+      "GEOLOCATION-E7F41460B2A0E4B3"
+   ],
+   "anomalyDetection":{
+      "outageHandling":{
+         "globalOutage":false,
+         "localOutage":false,
+         "localOutagePolicy":{
+            "affectedLocations":null,
+            "consecutiveRuns":null
+         }
+      },
+      "loadingTimeThresholds":{
+         "enabled":false,
+         "thresholds":[
+            
+         ]
+      }
+   },
+   "tags":[
+      
+   ],
+   "managementZones":[
+      
+   ],
+   "automaticallyAssignedApps":[
+      
+   ],
+   "manuallyAssignedApps":[
+      
+   ],
+   "requests":[
+      {
+         "entityId":"HTTP_CHECK_STEP-01C91E9353842DB5",
+         "name":"Enable",
+         "sequenceNumber":1
+      }
+   ]
+}
