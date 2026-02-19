@@ -10,7 +10,7 @@
       "requests":[
          {
             "description":"Enable",
-            "url":"https://easytrade.{{ ingress_domain }}/feature-flag-service/v1/flags/credit_card_meltdown",
+            "url":"{{ ingress_protocol }}://easytrade.{{ ingress_domain }}/feature-flag-service/v1/flags/credit_card_meltdown",
             "method":"PUT",
             "requestBody":"{\"enabled\": true}",
             "configuration":{
