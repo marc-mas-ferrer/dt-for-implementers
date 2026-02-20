@@ -120,4 +120,4 @@
 - include_role:
     name: dashboard
   vars:
-    ingress_protocol: "http"
+    dashboard_skip_install: true
