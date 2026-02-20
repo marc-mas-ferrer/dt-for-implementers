@@ -11,6 +11,10 @@
     name: k3s
 
 - include_role:
+    name: microk8s
+  when: false
+
+- include_role:
     name: dt-access-token
   vars:
     access_token_var_name: "dt_access_token_name"
@@ -115,3 +119,5 @@
 
 - include_role:
     name: dashboard
+  vars:
+    ingress_protocol: "http"
