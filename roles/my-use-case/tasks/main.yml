@@ -94,7 +94,8 @@
     minutes: 1
   when: false
   
-- include_tasks: local-easytrade.yml
+- include_role:
+    name: "{{ role_path }}/../local-easytrade"
 
 
 #- include_role:
