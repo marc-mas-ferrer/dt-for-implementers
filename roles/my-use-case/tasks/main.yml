@@ -93,11 +93,14 @@
   ansible.builtin.pause:
     minutes: 1
   when: false
-
+  
 - include_role:
-    name: app-easytrade
-  vars:
-    ingress_protocol: "http"
+    name: local-easytrade
+
+#- include_role:
+#    name: app-easytrade
+#  vars:
+#    ingress_protocol: "http"
 
 - name: Create HTTP test
   uri:
