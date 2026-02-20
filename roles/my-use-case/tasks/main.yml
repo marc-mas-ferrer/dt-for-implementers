@@ -117,7 +117,7 @@
     minutes: 1
   when: false
 
-- include_role:
-    name: dashboard
-  vars:
-    dashboard_skip_install: true
+#- include_role:
+#    name: dashboard
+#  vars:
+#    dashboard_skip_install: true
