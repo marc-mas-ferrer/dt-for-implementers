@@ -94,8 +94,8 @@
     minutes: 1
   when: false
   
-- include_role:
-    name: local-easytrade
+- include_tasks: local-easytrade.yml
+
 
 #- include_role:
 #    name: app-easytrade
