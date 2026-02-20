@@ -9,10 +9,10 @@
 
 - include_role:
     name: k3s
+  when: false
 
 - include_role:
     name: microk8s
-  when: false
 
 - include_role:
     name: dt-access-token
