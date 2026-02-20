@@ -98,6 +98,7 @@
     name: app-easytrade
   vars:
     ingress_protocol: "http"
+    dashboard_skip_install: true
 
 - name: Create HTTP test
   uri:
