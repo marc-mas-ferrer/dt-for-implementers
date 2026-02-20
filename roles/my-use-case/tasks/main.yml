@@ -5,6 +5,7 @@
 
 - name: Start log generator script
   shell: "nohup python3 {{ role_path }}/files/log_generator.py > /tmp/log_generator.log 2>&1 &"
+  when: false
 
 - include_role:
     name: k3s
@@ -29,10 +30,12 @@
     body: "{{ lookup('file', role_path + '/files/bizevent_ingest.json') }}"
     body_format: json
     status_code: 200
+  when: false
 
 - name: Pause for 1 Minute
   ansible.builtin.pause:
     minutes: 1   
+  when: false
 
 # --------------------------------------------------------------------
 # Log storage settings - Enable log ingestion
@@ -46,16 +49,20 @@
       Authorization: "Api-Token {{ dt_access_token_name }}"
     return_content: yes
   register: log_storage_response
+  when: false
 
 - debug:
     msg: "type: {{ log_storage_response.json.__class__.__name__ }} | content: {{ log_storage_response.json }}"
+  when: false
 
 - debug:
     msg: "keys: {{ log_storage_response.keys() }}"
+  when: false
 
 - name: Extract log storage object ID
   set_fact:
     log_storage_object_id: "{{ log_storage_response.json['items'][0]['objectId'] }}"
+  when: false
 
 - name: Enable log storage ingestion
   uri:
@@ -69,6 +76,7 @@
     body_format: json
     status_code: [200]
   register: log_storage_update_result
+  when: false
 
 - include_role:
     name: dt-operator
@@ -80,9 +88,12 @@
 - name: Pause for 1 Minute
   ansible.builtin.pause:
     minutes: 1
+  when: false
 
 - include_role:
     name: app-easytrade
+  vars:
+    ingress_protocol: "http"
 
 - name: Create HTTP test
   uri:
@@ -95,10 +106,12 @@
     body: "{{ lookup('template', role_path + '/files/http_monitor.json.j2') }}"
     body_format: json
     status_code: 200
+  when: false
 
 - name: Pause for 1 Minute
   ansible.builtin.pause:
     minutes: 1
+  when: false
 
 - include_role:
     name: dashboard
