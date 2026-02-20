@@ -1,0 +1,8 @@
+{
+    "value": {
+        "enabled": true,
+        "config-item-title": "[Built-in] Ingest all logs",
+        "send-to-storage": true,
+        "matchers": []
+    }
+}
