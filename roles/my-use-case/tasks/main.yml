@@ -117,6 +117,9 @@
     minutes: 1
   when: false
 
+- debug:
+    msg: "ended"
+
 #- include_role:
 #    name: dashboard
 #  vars:
